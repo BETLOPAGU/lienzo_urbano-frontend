@@ -1,9 +1,9 @@
 {
-  "name": "lienzo-urbano",
+  "name": "lienzo_urbano-frontend",
   "version": "1.2.1",
   "description": "Trabajo Terminal 2021-B040",
   "main": "index.jsx",
-  "author": "Jessica, Rodrigo, Nadia",
+  "author": "Nadia Lopez",
   "license": "MIT",
   "repository": {
     "type": "git",
