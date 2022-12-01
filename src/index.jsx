@@ -5,6 +5,7 @@
 */
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter, Route } from "react-router-dom";
 import { AppRouter } from "router/AppRouter"
 
@@ -12,15 +13,17 @@ import "assets/css/nucleo-icons.css";
 import "assets/scss/blk-design-system-react.scss";
 import "assets/demo/demo.css";
 
-// import Index from "LienzoUrbano/views/Index.js";
-// import LandingPage from "LienzoUrbano/views/examples/LandingPage.js";
-// import RegisterPage from "LienzoUrbano/views/examples/RegisterPage.js";
-// import ProfilePage from "LienzoUrbano/views/examples/ProfilePage.js";
+const client = new ApolloClient({
+  uri: "https://liberatosoftware.com/lienzourbano-backend/graphql/",
+  cache: new InMemoryCache()
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <BrowserRouter>
-    <AppRouter />
-  </BrowserRouter>
+  <ApolloProvider client={client}>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+  </ApolloProvider>
 );

@@ -38,18 +38,23 @@ export const Footer = () => {
         <Row>
           <Col md="9">
             <h1 className="title">Lienzo Urbano</h1>
-                <Nav>
-                  <NavItem>
-                    <NavLink href="">
-                      Contact Us
-                    </NavLink>
-                  </NavItem>                
-                  <NavItem>
-                    <NavLink href="">
-                      About Us
-                    </NavLink>
-                  </NavItem>
-                </Nav>                                           
+            <Nav>
+              <NavItem>
+                <NavLink href="">
+                  Contact Us
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="">
+                  About Us
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="">
+                  Políticas de Uso
+                </NavLink>
+              </NavItem>
+            </Nav>
           </Col>
           <Col md="3">
             <h3 className="title">Follow us:</h3>

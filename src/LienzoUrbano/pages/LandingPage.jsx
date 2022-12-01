@@ -32,12 +32,12 @@ export const LandingPage = () => {
   return (
     <>
       <ExamplesNavbar />
-        <section className="section section-lg section-coins">
-          <img
+        <section className="section">
+          {/* <img
             alt="..."
             className="path"
             src={require("assets/img/path3.png")}
-          />
+          /> */}
           <Container>
             <Row>
               <Col md="4">
@@ -121,7 +121,6 @@ export const LandingPage = () => {
             </Row>
           </Container>
         </section>
-        <Footer />
     </>
   );
 }

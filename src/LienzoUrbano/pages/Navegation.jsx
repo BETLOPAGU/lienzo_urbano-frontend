@@ -1,3 +1,6 @@
+import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+
 import {
   Container,
   Row,
@@ -9,17 +12,40 @@ import {
   Button
 } from "reactstrap";
 
+const id = 1;
+const USER_QUERY = gql`
+{
+  user(id: ${ id }) {
+    email
+    firstName
+  }
+  artworks {
+    id
+  }
+}
+`;
+
 export const Navegation = () => {
+  const { data, loading, error } = useQuery(USER_QUERY);
+
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>
+
   return (
     <>
-      <div className="section">
+      <div className="section">        
         <Container>
           <Row>
             <Col md="3" align="left">
-              <h1>Notices</h1>
+              <img
+                alt="..."
+                className="img-fluid rounded shadow"
+                src={require("assets/img/anuncio.jpeg")}
+                style={{ width: "150px" }}
+              />
             </Col>
             <Col md="6">
-              <h1>Publications</h1>
+              
             </Col>
             <Col md="3">
               <Card>
@@ -35,8 +61,8 @@ export const Navegation = () => {
                         src={require("assets/img/james.jpg")}
                         style={{ width: "150px" }}
                       />
-                    
-                    <h5>nombre de Usuario</h5>
+
+                      <h5>nombre de Usuario</h5>
                     </Row>
                     <Row>
                       <Button color="link">Seguir</Button>
