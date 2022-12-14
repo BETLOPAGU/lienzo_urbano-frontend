@@ -12,6 +12,7 @@ import { AppRouter } from "router/AppRouter"
 import "assets/css/nucleo-icons.css";
 import "assets/scss/blk-design-system-react.scss";
 import "assets/demo/demo.css";
+import { store } from "./store";
 
 const client = new ApolloClient({
   uri: "https://liberatosoftware.com/lienzourbano-backend/graphql/",
@@ -21,7 +22,7 @@ const client = new ApolloClient({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ApolloProvider client={client}>
+  <ApolloProvider client={client} store={ store }>
     <BrowserRouter>
       <AppRouter />
     </BrowserRouter>
