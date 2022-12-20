@@ -1,29 +1,20 @@
-import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { useQuery, gql } from '@apollo/client';
 
 import { AuthRoutes } from '../auth/routes/AuthRoutes';
 import { LURoutes } from '../LienzoUrbano/routes/LURoutes';
-import { useAuthStore } from '../hooks';
+import { useAuthStore } from '../hooks/useAuthStore';
 
 
 export const AppRouter = () => {
 
-  // const { status, checkAuthToken } = useAuthStore();
-
-  // useEffect(() => {
-  //   checkAuthToken();
-  // }, [])
-
-  const authStatus = 'authenticated';
-
+  const { status } = useAuthStore();
 
   return (
 
     <Routes>
       {
-        (authStatus === 'authenticated')
+        (status === 'not-authenticated')
           ?(
             <>
               <Route path="/auth/*" element={<AuthRoutes />} />
@@ -32,12 +23,11 @@ export const AppRouter = () => {
           )
           :(
             <>
-              <Route path="/auth/*" element={<AuthRoutes />} />
-              <Route path="/auth/*" element={<AuthRoutes />} />
+              <Route path="/" element={<LURoutes />} />
+              <Route path="/*" element={<Navigate to="/" />} />
             </>
           )
       }
     </Routes>
-
   )
 }

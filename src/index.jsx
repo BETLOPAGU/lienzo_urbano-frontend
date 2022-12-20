@@ -5,6 +5,7 @@
 */
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from 'react-redux';
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter, Route } from "react-router-dom";
 import { AppRouter } from "router/AppRouter"
@@ -12,7 +13,7 @@ import { AppRouter } from "router/AppRouter"
 import "assets/css/nucleo-icons.css";
 import "assets/scss/blk-design-system-react.scss";
 import "assets/demo/demo.css";
-// import { store } from "./store";
+import { store } from "./store";
 
 const client = new ApolloClient({
   uri: "https://liberatosoftware.com/lienzourbano-backend/graphql/",
@@ -22,9 +23,11 @@ const client = new ApolloClient({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
-  </ApolloProvider>
+  <Provider store={store}>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </ApolloProvider>
+  </Provider>
 );
