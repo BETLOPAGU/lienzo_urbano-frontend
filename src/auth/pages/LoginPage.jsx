@@ -19,7 +19,6 @@ const loginFormFields = {
 }
 
 export const LoginPage = () => {
-  const { startLogin, errorMessage, startRegister } = useAuthStore();
   const { loginEmail, loginPassword, onInputChange } = useForm(loginFormFields);
   const dispatch = useDispatch();
 

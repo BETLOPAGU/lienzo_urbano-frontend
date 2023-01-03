@@ -4,8 +4,12 @@
 
 */
 import React from "react";
+import { useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 // reactstrap components
+
+import { useAuthStore } from '../hooks/useAuthStore';
+
 import {
   Button,
   Collapse,
@@ -21,15 +25,20 @@ import {
 } from "reactstrap";
 
 export const ExamplesNavbar = () => {
+  const { startLogout } = useAuthStore();
+
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
+
+
   React.useEffect(() => {
     window.addEventListener("scroll", changeColor);
     return function cleanup() {
       window.removeEventListener("scroll", changeColor);
     };
   }, []);
+
   const changeColor = () => {
     if (
       document.documentElement.scrollTop > 99 ||

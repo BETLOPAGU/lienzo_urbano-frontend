@@ -18,6 +18,7 @@ import {
 
 // core components
 import { ExamplesNavbar, Footer } from "../../components";
+import { PrincipalNavbar } from 'LienzoUrbano/components';
 
 // import bigChartData from "variables/charts.js";
 
@@ -31,7 +32,7 @@ export const LandingPage = () => {
   }, []);
   return (
     <>
-      <ExamplesNavbar />
+      <PrincipalNavbar />
         <section className="section">
           {/* <img
             alt="..."

@@ -18,44 +18,44 @@ import { useMutation as UseMutation, useQuery as UseQuery, gql } from '@apollo/c
 // }
 // `;
 
-export const useTest = () => {
-    const [counter, setCounter] = React.useState(0)
+// export const useTest = () => {
+//     const [counter, setCounter] = React.useState(0)
 
 
-    const loginInput = {
-        email: 'gerardo@arceo.com',
-        pass: 'password'
-      }
+//     const loginInput = {
+//         email: 'gerardo@arceo.com',
+//         pass: 'password'
+//       }
 
-    const LOGIN_QUERY = gql`
-    {
-    login(loginInput: ${loginInput}) {
-        token
-        user {
-        id
-        firstName
-        }
-    }
-    }`;
+//     const LOGIN_QUERY = gql`
+//     {
+//     login(loginInput: ${loginInput}) {
+//         token
+//         user {
+//         id
+//         firstName
+//         }
+//     }
+//     }`;
 
-    const USER_QUERY = gql`
-    {
-    artworks {
-        id
-    }
-    }
-    `;
+//     const USER_QUERY = gql`
+//     {
+//     artworks {
+//         id
+//     }
+//     }
+//     `;
 
-    try {
-        console.log("HOLA2")
-        const data = UseQuery(USER_QUERY);
-        console.log("HOLA2", data)
-        console.log(data);
-        localStorage.setItem('token', data.token);
-    } catch (error) {
+//     try {
+//         console.log("HOLA2")
+//         const data = UseQuery(USER_QUERY);
+//         console.log("HOLA2", data)
+//         console.log(data);
+//         localStorage.setItem('token', data.token);
+//     } catch (error) {
 
-    }
-}
+//     }
+// }
 
 export const useAuthStore = () => {
 
@@ -63,76 +63,75 @@ export const useAuthStore = () => {
     const dispatch = useDispatch();
 
 
-    const startLogin = async( { data, loading, error} ) => {
-        try {
-            //Data gotten back from the fetch
-            // const { data, loading, error } = UseMutation(LOGIN_QUERY, {
-            //     loginInput: {
-            //         email: { correo },
-            //         pass: { password }
-            //     }
-            // });
+    // const startLogin = async( { data, loading, error} ) => {
+    //     try {
+    //         //Data gotten back from the fetch
+    //         // const { data, loading, error } = UseMutation(LOGIN_QUERY, {
+    //         //     loginInput: {
+    //         //         email: { correo },
+    //         //         pass: { password }
+    //         //     }
+    //         // });
 
-            if (loading) return "Cargando ...";
-            if (error) return <pre>{error.message}</pre>
+    //         if (loading) return "Cargando ...";
+    //         if (error) return <pre>{error.message}</pre>
 
 
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('token-init-date', new Date().getTime());
-            dispatch(onLogin({ name: data.name, id: data.id }));
+    //         localStorage.setItem('token', data.token);
+    //         localStorage.setItem('token-init-date', new Date().getTime());
+    //         dispatch(onLogin({ name: data.name, id: data.id }));
 
             
-        } catch (error) {
-            dispatch(onLogout('Credenciales incorrectas' + error));
-            console.log(error);
-            setTimeout(() => {
-                dispatch(clearErrorMessage());
-            }, 10);
-        }
-    }
+    //     } catch (error) {
+    //         dispatch(onLogout('Credenciales incorrectas' + error));
+    // //         console.log(error);
+    // //         setTimeout(() => {
+    // //             dispatch(clearErrorMessage());
+    // //         }, 10);
+    // //     }
+    // // }
 
-    const startRegister = () => {
+    // const startRegister = () => {
 
-        const loginInput = {
-            email: 'gerardo@arceo.com',
-            pass: 'password'
-          }
+    //     const loginInput = {
+    //         email: 'gerardo@arceo.com',
+    //         pass: 'password'
+    //       }
 
-        const LOGIN_QUERY = gql`
-        {
-        login(loginInput: ${loginInput}) {
-            token
-            user {
-            id
-            firstName
-            }
-        }
-        }`;
+    //     const LOGIN_QUERY = gql`
+    //     {
+    //     login(loginInput: ${loginInput}) {
+    //         token
+    //         user {
+    //         id
+    //         firstName
+    //         }
+    //     }
+    //     }`;
 
-        const USER_QUERY = gql`
-        {
-        artworks {
-            id
-        }
-        }
-        `;
+    //     const USER_QUERY = gql`
+    //     {
+    //     artworks {
+    //         id
+    //     }
+    //     }
+    //     `;
 
-        try {
-            console.log("HOLA2")
-            const data = UseQuery(USER_QUERY);
-            console.log("HOLA2", data)
-            console.log(data);
-            localStorage.setItem('token', data.token);
-        } catch (error) {
+    //     try {
+    //         console.log("HOLA2")
+    //         const data = UseQuery(USER_QUERY);
+    //         console.log("HOLA2", data)
+    //         console.log(data);
+    //         localStorage.setItem('token', data.token);
+    //     } catch (error) {
 
-        }
-    }
-
-    // const startLogout = () => {
-    //     localStorage.clear();
-    //     dispatch( onLogoutCalendar() );
-    //     dispatch( onLogout() );
+    //     }
     // }
+
+    const startLogout = () => {
+        localStorage.clear();       
+        dispatch( onLogout() );
+    }
 
 
 
@@ -143,9 +142,9 @@ export const useAuthStore = () => {
         user,
 
         //* Métodos
-        startLogin,
-        // startLogout,
-        startRegister,
+        // startLogin,
+        startLogout,
+        // startRegister,
     }
 
 }
