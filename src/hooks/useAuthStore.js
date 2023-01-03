@@ -1,8 +1,61 @@
 import { useDispatch, useSelector } from 'react-redux';
 // import { calendarApi } from '../api';
-import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store';
-import { useQuery as UseQuery, gql } from '@apollo/client';
+import React from "react";
 
+import { clearErrorMessage, onLogin, onLogout } from '../store';
+import { useMutation as UseMutation, useQuery as UseQuery, gql } from '@apollo/client';
+
+
+// const LOGIN_QUERY = gql`
+// mutation Login($loginInput: LoginInput!) {
+//     login(loginInput: $loginInput) {
+//         token
+//         user {
+//             id
+//             firstName
+//         }
+//     }
+// }
+// `;
+
+export const useTest = () => {
+    const [counter, setCounter] = React.useState(0)
+
+
+    const loginInput = {
+        email: 'gerardo@arceo.com',
+        pass: 'password'
+      }
+
+    const LOGIN_QUERY = gql`
+    {
+    login(loginInput: ${loginInput}) {
+        token
+        user {
+        id
+        firstName
+        }
+    }
+    }`;
+
+    const USER_QUERY = gql`
+    {
+    artworks {
+        id
+    }
+    }
+    `;
+
+    try {
+        console.log("HOLA2")
+        const data = UseQuery(USER_QUERY);
+        console.log("HOLA2", data)
+        console.log(data);
+        localStorage.setItem('token', data.token);
+    } catch (error) {
+
+    }
+}
 
 export const useAuthStore = () => {
 
@@ -10,22 +63,16 @@ export const useAuthStore = () => {
     const dispatch = useDispatch();
 
 
-    const startLogin = async ({ email, password }) => {
-        dispatch(onChecking());
+    const startLogin = async( { data, loading, error} ) => {
         try {
-            //User fetch
-            const USERF_QUERY = gql`
-                user(email: ${email}, password: ${password}) {
-                    token
-                    user {
-                        id
-                        firstName
-                    }
-                }
-            `;
-
             //Data gotten back from the fetch
-            const { data, loading, error } = UseQuery(USERF_QUERY);
+            // const { data, loading, error } = UseMutation(LOGIN_QUERY, {
+            //     loginInput: {
+            //         email: { correo },
+            //         pass: { password }
+            //     }
+            // });
+
             if (loading) return "Cargando ...";
             if (error) return <pre>{error.message}</pre>
 
@@ -34,30 +81,52 @@ export const useAuthStore = () => {
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({ name: data.name, id: data.id }));
 
-
+            
         } catch (error) {
-            dispatch(onLogout('Credenciales incorrectas'));
+            dispatch(onLogout('Credenciales incorrectas' + error));
+            console.log(error);
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10);
         }
     }
 
-    // const startRegister = async({ email, password, name }) => {
-    //     dispatch( onChecking() );
-    //     try {
-    //         const { data } = await calendarApi.post('/auth/new',{ email, password, name });
-    //         localStorage.setItem('token', data.token );
-    //         localStorage.setItem('token-init-date', new Date().getTime() );
-    //         dispatch( onLogin({ name: data.name, uid: data.uid }) );
+    const startRegister = () => {
 
-    //     } catch (error) {
-    //         dispatch( onLogout( error.response.data?.msg || '--' ) );
-    //         setTimeout(() => {
-    //             dispatch( clearErrorMessage() );
-    //         }, 10);
-    //     }
-    // }
+        const loginInput = {
+            email: 'gerardo@arceo.com',
+            pass: 'password'
+          }
+
+        const LOGIN_QUERY = gql`
+        {
+        login(loginInput: ${loginInput}) {
+            token
+            user {
+            id
+            firstName
+            }
+        }
+        }`;
+
+        const USER_QUERY = gql`
+        {
+        artworks {
+            id
+        }
+        }
+        `;
+
+        try {
+            console.log("HOLA2")
+            const data = UseQuery(USER_QUERY);
+            console.log("HOLA2", data)
+            console.log(data);
+            localStorage.setItem('token', data.token);
+        } catch (error) {
+
+        }
+    }
 
     // const startLogout = () => {
     //     localStorage.clear();
@@ -76,7 +145,7 @@ export const useAuthStore = () => {
         //* Métodos
         startLogin,
         // startLogout,
-        // startRegister,
+        startRegister,
     }
 
 }

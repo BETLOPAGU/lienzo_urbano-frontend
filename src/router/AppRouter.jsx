@@ -11,7 +11,6 @@ export const AppRouter = () => {
   const { status } = useAuthStore();
 
   return (
-
     <Routes>
       {
         (status === 'not-authenticated')

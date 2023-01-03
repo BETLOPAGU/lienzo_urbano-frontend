@@ -50,7 +50,7 @@ export const Navegation = () => {
             <Col md="3">
               <Card>
                 <CardHeader>
-                  <CardTitle>Artistas que podrían gustarte</CardTitle>
+                  <CardTitle>Artistas que podrían gustarte </CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="container">
