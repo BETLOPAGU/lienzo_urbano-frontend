@@ -5,3 +5,4 @@ export * from './ProfilePage';
 export * from './Navegation';
 export * from './ReportsPage'; 
 export * from './Search'; 
+export * from './Chat'; 

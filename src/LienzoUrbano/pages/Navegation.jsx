@@ -12,28 +12,14 @@ import {
   Button
 } from "reactstrap";
 
-const id = 1;
-const USER_QUERY = gql`
-{
-  user(id: ${ id }) {
-    email
-    firstName
-  }
-  artworks {
-    id
-  }
-}
-`;
+import { LUNavbar } from 'LienzoUrbano/components/LUNavbar';
 
 export const Navegation = () => {
-  const { data, loading, error } = useQuery(USER_QUERY);
-
-  if (loading) return "Loading...";
-  if (error) return <pre>{error.message}</pre>
 
   return (
     <>
-      <div className="section">        
+      <LUNavbar />
+      <div className="section">
         <Container>
           <Row>
             <Col md="3" align="left">
@@ -43,14 +29,24 @@ export const Navegation = () => {
                 src={require("assets/img/anuncio.jpeg")}
                 style={{ width: "150px" }}
               />
+              <br></br>
+              <br></br>
+              <br></br>
+              <img
+                alt="..."
+                className="img-fluid rounded shadow"
+                src={require("assets/img/anuncio.jpeg")}
+                style={{ width: "150px" }}
+              />
             </Col>
             <Col md="6">
-              
+
             </Col>
-            <Col md="3">
+            <Col md="3" style={{ 'margin': '1px solid black' }}>
+              <h4>Artistas que podrían gustarte </h4>
               <Card>
                 <CardHeader>
-                  <CardTitle>Artistas que podrían gustarte </CardTitle>
+                  <CardTitle></CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="container">
@@ -62,7 +58,53 @@ export const Navegation = () => {
                         style={{ width: "150px" }}
                       />
 
-                      <h5>nombre de Usuario</h5>
+                      <h5> Mark Rober</h5>
+                    </Row>
+                    <Row>
+                      <Button color="link">Seguir</Button>
+
+                    </Row>
+                  </div>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle></CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="container">
+                    <Row sm="3" xs="6">
+                      <img
+                        alt="..."
+                        className="img-fluid rounded-circle shadow"
+                        src={require("assets/img/julie.jpeg")}
+                        style={{ width: "150px" }}
+                      />
+
+                      <h5> Julie Suarez</h5>
+                    </Row>
+                    <Row>
+                      <Button color="link">Seguir</Button>
+
+                    </Row>
+                  </div>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle></CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="container">
+                    <Row sm="3" xs="6">
+                      <img
+                        alt="..."
+                        className="img-fluid rounded-circle shadow"
+                        src={require("assets/img/mike.jpg")}
+                        style={{ width: "150px" }}
+                      />
+
+                      <h5> Michelle Romero</h5>
                     </Row>
                     <Row>
                       <Button color="link">Seguir</Button>

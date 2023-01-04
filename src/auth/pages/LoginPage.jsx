@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 
-import { useAuthStore, useTest } from "../../hooks/useAuthStore";
 import { useForm } from "../../hooks/useForm";
 
 import { Footer, ExamplesNavbar } from '../../components';
 import { Row, Col, Container, Button } from 'reactstrap';
 import { Grid, TextField } from '@mui/material';
-import { useMutation as UseMutation, gql, useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 
-import { clearErrorMessage, onLogin, onLogout } from '../../store';
+import { clearErrorMessage, onLogin } from '../../store';
 
 const loginFormFields = {
   loginEmail: '',
@@ -56,6 +55,7 @@ export const LoginPage = () => {
     console.log(localStorage.getItem("token"))
     dispatch(onLogin({ name: `${user.firstName} ${user.lastName}`, id: user.id }));
   }
+
   if (loading) return <p>Loading ...</p>;
 
   return (

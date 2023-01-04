@@ -1,11 +1,11 @@
 
 import { LULayout } from 'LienzoUrbano/layout/LULayout';
-import { LandingPage } from './';
+import { Navegation } from './';
 
 export const LUPage = () => {
   return (
     <LULayout>
-        <LandingPage />
+        <Navegation />
     </LULayout>
   )
 }

@@ -1,9 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-// import { calendarApi } from '../api';
-import React from "react";
 
-import { clearErrorMessage, onLogin, onLogout } from '../store';
-import { useMutation as UseMutation, useQuery as UseQuery, gql } from '@apollo/client';
+import { onLogin, onLogout, onChecking } from '../store';
 
 export const useAuthStore = () => {
 
@@ -38,8 +35,7 @@ export const useAuthStore = () => {
 
         //* Métodos
         checkAuthToken,
-        startLogout,
-        // startRegister,
+        startLogout,        
     }
 
 }
