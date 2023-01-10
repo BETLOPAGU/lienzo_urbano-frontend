@@ -10,9 +10,11 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter, Route } from "react-router-dom";
 import { AppRouter } from "router/AppRouter"
 
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/css/nucleo-icons.css";
-import "assets/scss/blk-design-system-react.scss";
+import "assets/scss/blk-design-system-pro-react.scss?v1.2.0";
 import "assets/demo/demo.css";
+import "assets/demo/react-demo.css";
 import { store } from "./store";
 
 const client = new ApolloClient({

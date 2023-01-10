@@ -4,27 +4,17 @@
 
 */
 import React from "react";
-import { Box } from '@mui/system';
+import { Link } from "react-router-dom";
 
 import {
-  Badge,
   Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  FormGroup,
-  Input,
   Container,
   Row,
   Col,
-  Carousel,
-  CarouselItem
 } from "reactstrap";
 
 // core component
-import { IndexNavbar, Footer, PageHeader } from "../../components";
-import { ImageGallery } from "auth/components";
+import { IndexNavbar } from "../../components";
 
 export const WelcomePage = () => {
   React.useEffect(() => {
@@ -39,36 +29,30 @@ export const WelcomePage = () => {
       <IndexNavbar />
       <div className="wrapper">
         <div className="page-header">
-          <img
-            alt="..."
-            className="path path3"
-            src={require("assets/img/path3.png")}
-          />
+          <div className="squares square1" />
+          <div className="squares square2" />
+          <div className="squares square3" />
+          <div className="squares square4" />
+          <div className="squares square5" />
+          <div className="squares square6" />
+          <div className="squares square7" />
           <div className="content-center">
             <Container>
               <Row className="align-items-center text-left">
                 <Col className="ml-auto mr-auto" lg="6" md="8" xs="12">
-                  <h1 className="title">
-                    Integrated <br />
-                    <strong className="text-warning">Front marketing</strong>
+                  <h1 className="title" align="center">
+                    Lienzo Urbano <br />
+                    <strong className="text-warning"></strong>
                   </h1>
-                  <p className="description">
-                    We aim high at being focused on building relationships with
-                    our clients and community. Using our creative gifts drives
-                    this foundation.
-                  </p>
+                  <h3 className="text-warning" align="center">
+                    Transforma tu Ciudad
+                  </h3>
                   <Row className="row-input">
-                    <Col className="mt-1" md="8" xs="6">
-                      <Input
-                        aria-label="Your email"
-                        id="signupSrEmail"
-                        name="email"
-                        placeholder="Your email"
-                        type="email"
-                      />
+                    <Col className="mt-1" md="4" xs="3">
                     </Col>
                     <Col md="4" xs="6">
-                      <Button color="warning">Get Started</Button>
+                      <Button color="warning" tag={Link}
+                        to="/auth/register">¡Comenzar!</Button>
                     </Col>
                   </Row>
                 </Col>
@@ -79,9 +63,9 @@ export const WelcomePage = () => {
                       className="injected-svg js-svg-injector"
                       data-img-paths={
                         "[{&quot;targetId&quot;: &quot;#imageShape1&quot;, &quot;newPath&quot;: &quot;" +
-                        require("assets/img/painter.png") +
+                        require("assets/img/welcome.jpg") +
                         "&quot;},{&quot;targetId&quot;: &quot;#imageShape2&quot;, &quot;newPath&quot;: &quot;" +
-                        require("assets/img/painter.png") +
+                        require("assets/img/welcome.jpg") +
                         "&quot;}]"
                       }
                       data-parent="#SVGNonStandardHeroShape"
@@ -111,7 +95,7 @@ export const WelcomePage = () => {
                             style={{ overflow: "visible" }}
                             transform="matrix(0.9488 0 0 0.9488 25 53.1187)"
                             width="1000"
-                            xlinkHref={require("assets/img/painter.png")}
+                            xlinkHref={require("assets/img/welcome.jpg")}
                           />
                         </g>
                       </g>
@@ -138,7 +122,7 @@ export const WelcomePage = () => {
                             style={{ overflow: "visible" }}
                             transform="matrix(0.9488 0 0 0.9488 25 53.1187)"
                             width="1000"
-                            xlinkHref={require("assets/img/painter.png")}
+                            xlinkHref={require("assets/img/welcome.jpg")}
                           />
                         </g>
                       </g>
@@ -149,7 +133,6 @@ export const WelcomePage = () => {
               </Row>
             </Container>
           </div>
-          <Footer />
         </div>
       </div>
     </>

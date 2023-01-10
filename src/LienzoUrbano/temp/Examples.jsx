@@ -29,11 +29,11 @@ export const Examples = () => {
         <Row>
           <Col sm="6">
             <Link to="landing-page">
-              <img
+              {/* <img
                 alt="..."
                 className="img-raised"
                 src={require("assets/img/landing-page.png")}
-              />
+              /> */}
             </Link>
             <Button
               className="btn-simple btn-round"
@@ -46,11 +46,11 @@ export const Examples = () => {
           </Col>
           <Col sm="6">
             <Link to="profile-page">
-              <img
+              {/* <img
                 alt="..."
                 className="img-raised"
                 src={require("assets/img/profile-page.png")}
-              />
+              /> */}
             </Link>
             <Button
               className="btn-simple btn-round"

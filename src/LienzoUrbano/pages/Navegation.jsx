@@ -23,21 +23,21 @@ export const Navegation = () => {
         <Container>
           <Row>
             <Col md="3" align="left">
-              <img
+              {/* <img
                 alt="..."
                 className="img-fluid rounded shadow"
                 src={require("assets/img/anuncio.jpeg")}
                 style={{ width: "150px" }}
-              />
+              /> */}
               <br></br>
               <br></br>
               <br></br>
-              <img
+              {/* <img
                 alt="..."
                 className="img-fluid rounded shadow"
                 src={require("assets/img/anuncio.jpeg")}
                 style={{ width: "150px" }}
-              />
+              /> */}
             </Col>
             <Col md="6">
 
