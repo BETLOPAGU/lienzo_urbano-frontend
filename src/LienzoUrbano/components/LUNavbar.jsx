@@ -101,7 +101,7 @@ export const LUNavbar = () => {
                         <NavItem>
                             <div className="input-group mb-3">
                                 <div className="input-group-prepend">
-                                    <span id="basic-addon1"> <i className="fas fa-search" /></span>
+                                    <span className="input-group-text" id="basic-addon1"> <i className="fas fa-search" /></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon1" />
                             </div>
