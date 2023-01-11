@@ -63,7 +63,7 @@ export const IndexNavbar = () => {
       <Container>
         <div className="navbar-translate">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
-            <span>Lienzo Urbano </span>
+            <span><img alt="..." src={require("assets/img/LU_logo.png")} />Lienzo Urbano </span>
           </NavbarBrand>
 
           <button

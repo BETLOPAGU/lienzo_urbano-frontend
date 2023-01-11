@@ -10,7 +10,10 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from '../../hooks/useAuthStore';
 
 import {
-    Button,
+    UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,   
     Collapse,
     NavbarBrand,
     Navbar,
@@ -67,19 +70,8 @@ export const LUNavbar = () => {
             <Container>
                 <div className="navbar-translate">
                     <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-                        <h3><span>Lienzo Urbano</span></h3>
+                        <h3><img alt="..." src={require("assets/img/LU_logo.png")} /><span>Lienzo Urbano</span></h3>
                     </NavbarBrand>
-                    <UncontrolledTooltip placement="bottom" target="navbar-brand">
-                    </UncontrolledTooltip>
-                    <button
-                        aria-expanded={collapseOpen}
-                        className="navbar-toggler navbar-toggler"
-                        onClick={toggleCollapse}
-                    >
-                        <span className="navbar-toggler-bar bar1" />
-                        <span className="navbar-toggler-bar bar2" />
-                        <span className="navbar-toggler-bar bar3" />
-                    </button>
                 </div>
                 <Collapse
                     className={"justify-content-end " + collapseOut}
@@ -107,14 +99,14 @@ export const LUNavbar = () => {
                     </div>
                     <Nav navbar>
                         <NavItem>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"> <i className="fas fa-search" /></span>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                    <span id="basic-addon1"> <i className="fas fa-search" /></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon1" />
+                                <input type="text" className="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon1" />
                             </div>
                         </NavItem>
-                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <NavItem className="p-0">
                             <NavLink
                                 tag={Link}
@@ -148,25 +140,40 @@ export const LUNavbar = () => {
                         <NavItem className="p-0">
                             <NavLink
                                 tag={Link}
-                                to="/profile"
+                                to="/map"
                             >
-
-                                <i className="fas fa-user-circle" style={{ 'fontSize': '30px' }} />
+                                <i className="fa-solid fa-map-location" style={{ 'fontSize': '30px' }} />
                                 <p className="d-lg-none d-xl-none"></p>
                             </NavLink>
                         </NavItem>
-                        <NavItem className="p-0">
-                            <NavLink
-                                data-placement="bottom"
-                                onClick={startLogout}
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                title="Cerrar sesión"
-                            >
-                                <i className="fas fa-sign-out-alt" />
-                                <p className="d-lg-none d-xl-none">Cerrar sesión</p>
-                            </NavLink>
-                        </NavItem>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <UncontrolledDropdown nav>
+                            <DropdownToggle caret color="default" nav>
+                                <i className="fas fa-user-circle" style={{ 'fontSize': '30px' }} />
+                            </DropdownToggle>
+                            <DropdownMenu className="dropdown-with-icons">
+                                <DropdownItem to="/profile" tag={Link}>
+                                    <i className="fas fa-user-circle" />
+                                    Tu Perfil
+                                </DropdownItem>
+                                <DropdownItem to="/colections" tag={Link}>
+                                    <i className="fas fa-file-image" />
+                                    Tus colecciones
+                                </DropdownItem>
+                                <DropdownItem
+                                    data-placement="bottom"
+                                    onClick={startLogout}
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    title="Cerrar sesión"
+                                >
+                                    <i className="fas fa-sign-out-alt" />
+                                    Cerrar Sesión
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
                     </Nav>
                 </Collapse>
             </Container>

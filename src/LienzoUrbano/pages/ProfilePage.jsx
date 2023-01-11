@@ -68,6 +68,7 @@ export const ProfilePage = () => {
       document.body.classList.toggle("profile-page");
     };
   }, []);
+  
   return (
     <>
       <ExamplesNavbar />

@@ -67,7 +67,7 @@ export const ExamplesNavbar = () => {
       <Container>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-            <span>Lienzo Urbano</span>
+            <span><img alt="..." src={require("assets/img/LU_logo.png")} />Lienzo Urbano</span>
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
           </UncontrolledTooltip>

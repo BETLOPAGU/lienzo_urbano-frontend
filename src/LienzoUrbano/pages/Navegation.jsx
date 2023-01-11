@@ -20,6 +20,7 @@ export const Navegation = () => {
     <>
       <LUNavbar />
       <div className="section">
+        <img alt="..." style={{backgroundImage: "url(" + require("assets/img/path3.png") + ")"}} />
         <Container>
           <Row>
             <Col md="3" align="left">
