@@ -3,8 +3,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useCallback} from "react";
+import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -17,6 +17,9 @@ import {
 import { IndexNavbar } from "../../components";
 
 export const WelcomePage = () => {
+  const navigate = useNavigate();
+  const handleOnClick = useCallback(() => navigate('/auth/register', { replace: true }), [navigate]);
+
   React.useEffect(() => {
     document.body.classList.toggle("index-page");
     // Specify how to clean up after this effect:
@@ -51,7 +54,12 @@ export const WelcomePage = () => {
                     <Col className="mt-1" md="4" xs="3">
                     </Col>
                     <Col md="4" xs="6">
-                      <Button color="warning">¡Comenzar!</Button>
+                      <Button
+                        color="warning"
+                        onClick={handleOnClick}
+                      >
+                        ¡Comenzar!
+                      </Button>
                     </Col>
                   </Row>
                 </Col>
