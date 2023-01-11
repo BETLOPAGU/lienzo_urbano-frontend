@@ -51,8 +51,7 @@ export const WelcomePage = () => {
                     <Col className="mt-1" md="4" xs="3">
                     </Col>
                     <Col md="4" xs="6">
-                      <Button color="warning" tag={Link}
-                        to="/auth/register">¡Comenzar!</Button>
+                      <Button color="warning">¡Comenzar!</Button>
                     </Col>
                   </Row>
                 </Col>
