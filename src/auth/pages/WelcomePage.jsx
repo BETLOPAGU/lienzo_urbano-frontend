@@ -192,7 +192,7 @@ export const WelcomePage = () => {
                 <img
                   alt="..."
                   className="shape"
-                  src={require("assets/img/path2.png")}
+                  src="https://i.ibb.co/NsTv9r3/lu-path2.png"
                 />
                 <figure className="ie-non-standard-hero-shape">
                   <svg
@@ -223,7 +223,7 @@ export const WelcomePage = () => {
                           style={{ overflow: "visible" }}
                           transform="matrix(0.9488 0 0 0.9488 25 53.1187)"
                           width="900"
-                          xlinkHref={require("assets/img/max.jpg")}
+                          xlinkHref="https://i.ibb.co/qdvmSzc/lu-max.jpg"
                         />
                       </g>
                     </g>
@@ -250,7 +250,7 @@ export const WelcomePage = () => {
                           style={{ overflow: "visible" }}
                           transform="matrix(0.9488 0 0 0.9488 25 53.1187)"
                           width="900"
-                          xlinkHref={require("assets/img/max.jpg")}
+                          xlinkHref="https://i.ibb.co/qdvmSzc/lu-max.jpg"
                         />
                       </g>
                     </g>
