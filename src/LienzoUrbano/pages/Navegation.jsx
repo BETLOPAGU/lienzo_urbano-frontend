@@ -11,7 +11,13 @@ import {
   CardTitle,
   Button,
   CardImg,
-  CardFooter
+  CardFooter,
+  NavbarBrand,
+  Navbar,
+  NavItem,
+  NavLink,
+  Nav,
+  UncontrolledCollapse
 } from "reactstrap";
 
 import { LUNavbar } from 'LienzoUrbano/components/LUNavbar';
@@ -102,6 +108,44 @@ export const Navegation = () => {
     }
   `;
 
+  let slickHeader3Settings = {
+    dots: false,
+    infinite: true,
+    centerMode: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    prevArrow: <PrevButton />,
+    nextArrow: <NextButton />,
+    className: "center slider slick-buttons-under",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+      // You can unslick at a given breakpoint now by adding:
+      // settings: "unslick"
+      // instead of a settings object
+    ]
+  };
+
   const { data, loading } = useQuery(RECOMENDATIONS_QUERY);
 
   return (
@@ -109,43 +153,49 @@ export const Navegation = () => {
       <LUNavbar />
       <div className="testimonials-4">
         {/* <img alt="..." className="path" src={require("assets/img/blob.png")} /> */}
-        <Container fluid>
-          <Row style={{ marginTop: '-30px' }}>
-            <Col className="positioned" lg="4" md="8" xs="10">
-              <h1 className="title text-warning">Te Recomendamos ...</h1>
-            </Col>
-            <Col md="12">
-              <Slick {...slickSettings} >
-                {
-                  data?.getArtworkRecommendations?.map(recommendation => (
-                    <div key={recommendation.id}>
-                      <div className="justify-content-left" style={{ cursor: "pointer" }}>
-                        <img
-                          alt={recommendation.title}
-                          className="d-block"
-                          src={recommendation.imageUrl}
-                        />
-                        <br />
-                        <div className="author">
+
+
+        <div className="header header-3">
+          <div className="" >
+            <div className="content-center">
+              <Row>
+                <Col
+                  className="ml-auto mr-auto positioned"
+                  lg="5"
+                  md="8"
+                  xs="12"
+                >
+                  <h1 className="title">Obras de arte recomendadas</h1>
+                </Col>
+                <Col md="12">
+                  <Slick {...slickHeader3Settings}>
+                    {
+                      data?.getArtworkRecommendations?.map(recommendation => (
+                        <div key={recommendation.id} style={{ cursor: "pointer" }}>
                           <img
-                            alt="..."
-                            className="avatar img-raised"
-                            src={recommendation.artist.photoUrl}
+                            alt={recommendation.title}
+                            height="500"
+                            src={recommendation.imageUrl}
+                            width="450"
                           />
-                          <span>{recommendation.artist.firstName} {recommendation.artist.lastName}</span>
                         </div>
-                      </div>
-                    </div>
-                  ))
-                }
-              </Slick>
-            </Col>
-          </Row>
-        </Container>
-        <br /><br />
+                      ))
+                    }
+                  </Slick>
+                </Col>
+              </Row>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        
+
         <Container fluid>
           <Row>
-            <Col lg="3" style={{ position: 'sticky' }} className="justify-content-center">
+            <Col lg="1" style={{ position: 'sticky' }} className="justify-content-center">
               <img
                 alt="..."
                 src="https://mktefa.ditrendia.es/hs-fs/hubfs/Ejemplos%20publicidad%20banca%20y%20seguros/ditrendia-Ejemplo%20publicidad%20en%20banca%20y%20seguros-banner%20Openbank%20Hipoteca%201.gif?width=300&amp;height=600&amp;name=ditrendia-Ejemplo%20publicidad%20en%20banca%20y%20seguros-banner%20Openbank%20Hipoteca%201.gif"
@@ -158,78 +208,110 @@ export const Navegation = () => {
                 style={{ height: '300px' }}
               />
             </Col>
-            <Col lg="9" className='justify-content-center'>
-              <Card style={{ width: '900px' }}>
-                <CardHeader align="left">
-                  <img
-                    alt="..."
-                    src={require("assets/img/logo.png")}
-                    className="avatar img-raised"
+
+            <Col lg="11" className='justify-content-center'>
+              
+
+
+            <div className="section blogs-4" id="blogs-4">
+          <Container fluid>
+            <Row>
+              <Col lg="3">
+                <Card
+                  className="card-blog card-background"
+                  data-animation="zooming"
+                >
+                  <div
+                    className="full-background"
+                    style={{
+                      backgroundImage:
+                        "url(https://piase.s3.us-east-2.amazonaws.com/lu-welcome.jpg)"
+                    }}
                   />
-                  <span className="ml-1">Artista Juan |  14 de diciembre del 2022             </span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button className="btn btn-primary btn-sm">Seguir</button>
-                  {/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
-                  <i className="fas fa-ellipsis-v" style={{ fontSize: '20px', align: 'right' }} />
-                  <br /><br /><br />
-                  <p>Aquí el autor pone una descripción</p>
-                </CardHeader>
-                <CardBody>
-                  <CardImg alt="..."
-                    src="https://unamglobal.unam.mx/wp-content/uploads/2018/02/martin-whatson-street-art-2.jpg">
-
-                  </CardImg>
-                  {/* <CardBody className="text-left">
-                    <CardFooter align="center">
-                      <div lg="3">
-                        <i className="fas fa-images" style={{ fontSize: '20px' }} />
-                      </div>
-
-                      <div lg="3">
-                        <i className="fa fa-info-circle" style={{ fontSize: '20px' }} />
-                      </div>
-                    </CardFooter>
+                  <CardBody>
+                    <div className="content-bottom">
+                      {/* <h6 className="card-category">Climate Change</h6> */}
+                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                        <CardTitle tag="h3">Surreal</CardTitle>
+                      </a>
+                    </div>
                   </CardBody>
-                  <CardBody className="text-left">
-                    <CardFooter>
-                      <div className='justify-content-left'>
-                        <i className="tim-icons icon-heart-2 text-danger" /> 0
-                        <i className="tim-icons icon-single-copy-04 text-info" />"0"
-                      </div>
-                      <div className='justify-content-right'>
-                        <i className="fa fa-save" style={{ fontSize: '20px' }} />
-                      </div>
-                    </CardFooter>
-                  </CardBody> */}
-                </CardBody>
-                <CardFooter align='center'>
-                  <div>
-                    <i className="fas fa-images" style={{ fontSize: '30px' }} />
-                  </div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <div>
-                    <i className="fa fa-info-circle" style={{ fontSize: '30px' }} />
-                  </div>
-                </CardFooter>
-                <CardFooter className='justify-content-end'>
-                  <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <i className="tim-icons icon-heart-2 text-danger" style={{ fontSize: '30px' }} /> 0
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <i className="tim-icons icon-single-copy-04 text-info" style={{ fontSize: '30px' }} />0
-                  </div>
-                </CardFooter>
-              </Card>
+                </Card>
+              </Col>
+              <Col lg="3">
+                <Card
+                  className="card-blog card-background"
+                  data-animation="zooming"
+                >
+                  <div
+                    className="full-background"
+                    style={{
+                      backgroundImage:
+                        "url(https://piase.s3.us-east-2.amazonaws.com/lu-cat-1.webp)"
+                    }}
+                  />
+                  <CardBody>
+                    <div className="content-bottom">
+                      {/* <h6 className="card-category">Save the World</h6> */}
+                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                        <CardTitle tag="h3">Pop</CardTitle>
+                      </a>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col lg="3">
+                <Card
+                  className="card-blog card-background"
+                  data-animation="zooming"
+                >
+                  <div
+                    className="full-background"
+                    style={{
+                      backgroundImage:
+                      "url(https://piase.s3.us-east-2.amazonaws.com/lu-cat-2.webp)"
+                    }}
+                  />
+                  <CardBody>
+                    <div className="content-bottom">
+                      {/* <h6 className="card-category">Applications Companies</h6> */}
+                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                        <CardTitle tag="h3">Realista</CardTitle>
+                      </a>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col lg="3">
+                <Card
+                  className="card-blog card-background"
+                  data-animation="zooming"
+                >
+                  <div
+                    className="full-background"
+                    style={{
+                      backgroundImage:
+                      "url(https://piase.s3.us-east-2.amazonaws.com/lu-cat-3.webp)"
+                    }}
+                  />
+                  <CardBody>
+                    <div className="content-bottom">
+                      {/* <h6 className="card-category">RFID microchips</h6> */}
+                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                        <CardTitle tag="h3">
+                          Abstracto
+                        </CardTitle>
+                      </a>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+
+
+              
             </Col>
           </Row>
         </Container>
