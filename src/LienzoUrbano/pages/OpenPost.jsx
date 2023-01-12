@@ -4,67 +4,68 @@ import Select from "react-select";
 
 // reactstrap components
 import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardLink,
-  CardTitle,
-  Input,
-  InputGroup,
-  Container,
-  Row,
-  Col,
-  UncontrolledTooltip,
-  Carousel,
-  CarouselItem,
-  CarouselIndicators
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardLink,
+    CardTitle,
+    Input,
+    InputGroup,
+    Container,
+    Row,
+    Col,
+    UncontrolledTooltip,
+    Carousel,
+    CarouselItem,
+    CarouselIndicators
 } from "reactstrap";
 
 // core components
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
+import { LUNavbar } from "LienzoUrbano/components/LUNavbar.jsx";
 
 const items = [
-  {
-    content: (
-      <img
-        alt="..."
-        className="d-block"
-        src={require("assets/img/shirt.png")}
-      />
-    ),
-    altText: "",
-    caption: "",
-    src: "0"
-  },
-  {
-    content: (
-      <img
-        alt="..."
-        className="d-block"
-        src={require("assets/img/shorts.png")}
-      />
-    ),
-    altText: "",
-    caption: "",
-    src: "1"
-  },
-  {
-    content: (
-      <img
-        alt="..."
-        className="d-block"
-        src={require("assets/img/tshirt.png")}
-      />
-    ),
-    altText: "",
-    caption: "",
-    src: "2"
-  }
+    {
+        content: (
+            <img
+                alt="..."
+                className="d-block"
+                src={require("assets/img/shirt.png")}
+            />
+        ),
+        altText: "",
+        caption: "",
+        src: "0"
+    },
+    {
+        content: (
+            <img
+                alt="..."
+                className="d-block"
+                src={require("assets/img/shorts.png")}
+            />
+        ),
+        altText: "",
+        caption: "",
+        src: "1"
+    },
+    {
+        content: (
+            <img
+                alt="..."
+                className="d-block"
+                src={require("assets/img/tshirt.png")}
+            />
+        ),
+        altText: "",
+        caption: "",
+        src: "2"
+    }
 ];
 
-export const OpenPost = () => {
+export const OpenPost = ({ idImagen }) => {
     const [activeIndex, setActiveIndex] = React.useState(0);
     const [animating, setAnimating] = React.useState(false);
     const [quantity, setQuantity] = React.useState(1);
@@ -110,22 +111,13 @@ export const OpenPost = () => {
     };
     return (
         <>
-            <ColorNavbar />
+            <LUNavbar />
             <div className="wrapper" ref={wrapper}>
-                <div className="page-header page-header-small">
-                    <img
-                        alt="..."
-                        className="path shape"
-                        src={require("assets/img/shape-s.png")}
-                    />
-                    <Container>
-                        <h1 className="h1-seo">Our products</h1>
-                        <h3>This is the best way to find your favorite stuff</h3>
-                    </Container>
-                </div>
+                <br /><br /><br /><br />
                 <div className="section">
                     <Container>
                         <Row>
+                            <h1>{idImagen}</h1>
                             <Col lg="6" md="12">
                                 <Carousel
                                     activeIndex={activeIndex}

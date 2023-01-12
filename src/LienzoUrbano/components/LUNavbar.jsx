@@ -26,6 +26,7 @@ import {
     UncontrolledTooltip
 } from "reactstrap";
 
+const id = 2;
 
 export const LUNavbar = () => {
     const { startLogout } = useAuthStore();
@@ -143,6 +144,15 @@ export const LUNavbar = () => {
                                 <i className="fas fa-comment-alt" style={{ 'fontSize': '30px' }} />
                                 <p className="d-lg-none d-xl-none"></p>
                             </NavLink>
+                        </NavItem>
+                        <NavItem className="p-0">
+                            <Link
+                                tag={Link}
+                                to={`/openPost/${id}`}
+                            >
+                                <i className="fas fa-plus" style={{ 'fontSize': '30px' }} />
+                                <p className="d-lg-none d-xl-none"></p>
+                            </Link>
                         </NavItem>
                         &nbsp;
                         &nbsp;
