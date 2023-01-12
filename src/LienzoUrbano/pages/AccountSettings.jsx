@@ -70,6 +70,7 @@ export const AccountSettings = () => {
             <LUNavbar />
             <div className="wrapper" ref={wrapper}>
                 <div className="section">
+                    <br /><br />
                     <Container>
                         <Row>
                             <Col md="3">
@@ -111,7 +112,7 @@ export const AccountSettings = () => {
                                             <div>
                                                 <header>
                                                     <h2 className="text-uppercase">
-                                                        TU PERFIL
+                                                        CONFIGURACIÓN DE TU PERFIL
                                                     </h2>
                                                 </header>
                                                 <hr className="line-info" />
@@ -370,7 +371,6 @@ export const AccountSettings = () => {
                         </Row>
                     </Container>
                 </div>
-                <DemoFooter />
             </div>
         </>
     );

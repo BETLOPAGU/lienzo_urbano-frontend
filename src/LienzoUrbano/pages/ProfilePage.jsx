@@ -6,27 +6,36 @@ import React from "react";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 // reactstrap components
+
+import classnames from "classnames";
+
+
+// reactstrap components
 import {
+  Alert,
   Button,
-  Card,
-  CardHeader,
-  CardBody,
+  Label,
   FormGroup,
   Form,
   Input,
+  CustomInput,
+  NavItem,
+  NavLink,
+  Nav,
+  Progress,
   Table,
+  TabContent,
   TabPane,
   Container,
   Row,
-  Col,
-  UncontrolledTooltip,
-  UncontrolledCarousel
+  Col
 } from "reactstrap";
 
 // core components
-import { Footer } from '../../components';
-import { LUNavbar } from "LienzoUrbano/components";
-
+import DemoFooter from "components/Footers/DemoFooter.js";
+import ImageUpload from "../temp/components/CustomUpload/ImageUpload.js";
+import TagsInput from "../temp/components/TagsInput/TagsInput.js";
+import { LUNavbar } from "LienzoUrbano/components/LUNavbar.jsx";
 const carouselItems = [
   {
     src: require("assets/img/denys.jpg"),
@@ -49,6 +58,8 @@ let ps = null;
 
 export const ProfilePage = () => {
   // const [tabs, setTabs] = React.useState(1);
+  const wrapper = React.useRef(null);
+
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
@@ -69,194 +80,70 @@ export const ProfilePage = () => {
       document.body.classList.toggle("profile-page");
     };
   }, []);
-  
+
   return (
     <>
       <LUNavbar />
-      <div className="wrapper">
-        <div className="page-header">
+      <div className="wrapper" ref={wrapper}>
+        <div className="section">
           <img
             alt="..."
             className="dots"
             src={require("assets/img/dots.png")}
           />
-          <img
-            alt="..."
-            className="path"
-            src={require("assets/img/path4.png")}
-          />
-          <Container className="align-items-center">
+          <Container>
+            <br /><br />
             <Row>
-              <Col lg="6" md="6">
-                <h1 className="profile-title text-left">Perfil de Alguien</h1>
-                <h5 className="text-on-back">01</h5>
-                <p className="profile-description">
-                  Información de la persona.
-                </p>
-                <div className="btn-wrapper profile pt-3">
-                  <Button
-                    className="btn-icon btn-round"
-                    color="facebook"
-                    href=""
-                    id="tooltip982846143"
-                    target="_blank"
-                  >
-                    <i className="fab fa-facebook-square" />
-                  </Button>
-                  <UncontrolledTooltip delay={0} target="tooltip982846143">
-                    Like us
-                  </UncontrolledTooltip>
-                  <Button
-                    className="btn-icon btn-round"
-                    color="dribbble"
-                    href=""
-                    id="tooltip951161185"
-                    target="_blank"
-                  >
-                    <i className="fab fa-dribbble" />
-                  </Button>
-                  <UncontrolledTooltip delay={0} target="tooltip951161185">
-                    Follow us
-                  </UncontrolledTooltip>
-                </div>
-              </Col>
-              <Col className="ml-auto mr-auto" lg="4" md="6">
-                <Card className="card-coin card-plain">
-                  <CardHeader>
+              <Col md="3">
+                <div className="section">
+                  {/* User Information */}
+                  <section className="text-center">
                     <img
                       alt="..."
-                      className="img-center img-fluid rounded-circle"
-                      src={require("assets/img/mike.jpg")}
+                      className="img-fluid rounded-circle shadow"
+                      src={require("assets/img/james.jpg")}
+                      style={{ width: "150px" }}
                     />
-                    <h4 className="title">Intereses</h4>
-                  </CardHeader>
-                  <CardBody>
-
-                      <TabPane tabId="tab3">
-                        <Table className="tablesorter" responsive>
-                          <thead className="text-primary">
-                            <tr>
-                              <th className="header">Lo que más me apasiona es...</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Arte callejero</td>
-                            </tr>
-                            <tr>
-                              <td>Arte surrealista</td>
-                            </tr>
-                            <tr>
-                              <td>Dormir</td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </TabPane>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-        <div className="section">
-          <Container>
-            <Row className="justify-content-between">
-              <Col md="6">
-                <Row className="justify-content-between align-items-center">
-                  <UncontrolledCarousel items={carouselItems} />
-                </Row>
-              </Col>
-              <Col md="5">
-                <h1 className="profile-title text-left">Obras realizadas</h1>
-                <h5 className="text-on-back">02</h5>
-                <p className="profile-description text-left">
-                  Estos son algunos de mis trabajos
-                </p>
-                <div className="btn-wrapper pt-3">
-                  <Button
-                    className="btn-simple"
-                    color="primary"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <i className="tim-icons icon-book-bookmark" /> Ver más...
-                  </Button>
+                  </section>
                 </div>
               </Col>
+              <Col md="6">
+                <br />
+                <Row>
+                  <section>
+                    <Col md="3">
+                      <h3 className="title" align="left">Charlie Bailey</h3>
+                    </Col>
+                    <Col md="3">
+                      <Button
+                        className="btn-simple"
+                        color="primary"
+                        href="#pablo"
+                        onClick={(e) => e.preventDefault()}
+                        size="sm"
+                        align="right"
+                      >
+                        <i className="tim-icons icon-check-2 mr-1" />
+                        Following
+                      </Button>
+                    </Col>
+                  </section>
+                </Row>
+                <Row>
+                  <section>
+                    <h4 align="left">Correo</h4>
+                    <h4 align="left">Teléfono</h4>
+                    <br />
+                    <h3 align="left"> 2 Publicaciones  0 Seguidores  <i className="fas fa-star" />4.5 </h3>
+                  </section>
+                </Row>
+              </Col>
+            </Row>
+            <Row>
+
             </Row>
           </Container>
         </div>
-        <section className="section">
-          <Container>
-            <Row>
-              <Col md="6">
-                <Card className="card-plain">
-                  <CardHeader>
-                    <h1 className="profile-title text-left">Contact</h1>
-                    <h5 className="text-on-back">03</h5>
-                  </CardHeader>
-                  <CardBody>
-                    <Form>
-                      <Row>
-                        <Col md="6">
-                          <FormGroup>
-                            <label>Nombre</label>
-                            <Input defaultValue="Mike" type="text" />
-                          </FormGroup>
-                        </Col>
-                        <Col md="6">
-                          <FormGroup>
-                            <label>Correo</label>
-                            <Input placeholder="mike@email.com" type="email" />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="6">
-                          <FormGroup>
-                            <label>Teléfono </label>
-                            <Input defaultValue="001-12321345" type="text" />
-                          </FormGroup>
-                        </Col>
-                        <Col md="6">
-                          <FormGroup>
-                            <label>Facebook</label>
-                            <Input defaultValue="CreativeTim" type="text" />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <label>Message</label>
-                            <Input placeholder="Hello there!" type="text" />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Button
-                        className="btn-round float-right"
-                        color="primary"
-                        data-placement="right"
-                        id="tooltip341148792"
-                        type="button"
-                      >
-                        ¡Conectar!
-                      </Button>
-                      <UncontrolledTooltip
-                        delay={0}
-                        placement="right"
-                        target="tooltip341148792"
-                      >
-                        Can't wait for your message
-                      </UncontrolledTooltip>
-                    </Form>
-                  </CardBody>
-                </Card>
-              </Col>          
-            </Row>
-          </Container>
-        </section>
-        <Footer />
       </div>
     </>
   );

@@ -112,28 +112,19 @@ export const Navegation = () => {
         <Container fluid>
           <Row style={{ marginTop: '-30px' }}>
             <Col className="positioned" lg="4" md="8" xs="10">
-              <h1 className="title text-warning">Te Recomendamos ...</h1>
+              <h1 className="title text">Te Recomendamos ...</h1>
             </Col>
             <Col md="12">
               <Slick {...slickSettings} >
                 {
                   data?.getArtworkRecommendations?.map(recommendation => (
                     <div key={recommendation.id}>
-                      <div className="justify-content-left" style={{ cursor: "pointer" }}>
+                      <div className="justify-content-center" style={{ cursor: "pointer" }}>
                         <img
                           alt={recommendation.title}
                           className="d-block"
                           src={recommendation.imageUrl}
                         />
-                        <br />
-                        <div className="author">
-                          <img
-                            alt="..."
-                            className="avatar img-raised"
-                            src={recommendation.artist.photoUrl}
-                          />
-                          <span>{recommendation.artist.firstName} {recommendation.artist.lastName}</span>
-                        </div>
                       </div>
                     </div>
                   ))

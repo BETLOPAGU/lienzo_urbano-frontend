@@ -7,3 +7,4 @@ export * from './ReportsPage';
 export * from './Search'; 
 export * from './Chat'; 
 export * from './AccountSettings'; 
+export * from './CreatePost'; 

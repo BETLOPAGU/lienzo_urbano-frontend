@@ -5,8 +5,9 @@ import Swal from 'sweetalert2';
 import { AuthRoutes } from '../auth/routes/AuthRoutes';
 import { LURoutes } from '../LienzoUrbano/routes/LURoutes';
 import { useAuthStore } from '../hooks/useAuthStore';
-import { Navegation, Chat, ProfilePage, AccountSettings } from '../LienzoUrbano/pages';
+import { Navegation, Chat, ProfilePage, AccountSettings, CreatePost, Search } from '../LienzoUrbano/pages';
 import { gql, useSubscription } from '@apollo/client';
+import { OpenPost } from 'LienzoUrbano/pages/OpenPost';
 
 export const AppRouter = () => {
 
@@ -103,6 +104,9 @@ export const AppRouter = () => {
               <Route path="/chat" element={ <Chat /> } />
               <Route path="/profile" element={ <ProfilePage /> } />
               <Route path="/accountSettings" element={ <AccountSettings /> } />
+              <Route path="/createPost" element={ <CreatePost /> } />
+              <Route path="/search" element={ <Search /> } />
+              <Route path="/openPost" element={ <OpenPost /> } />
               <Route path="/*" element={<Navigate to="/" />} />
             </>
           )

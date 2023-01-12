@@ -120,9 +120,18 @@ export const LUNavbar = () => {
                         <NavItem className="p-0">
                             <NavLink
                                 tag={Link}
-                                to="/"
+                                to="/search"
                             >
-                                <i className="fas fa-bell" style={{ 'fontSize': '30px' }} />
+                                <i className="fas fa-search" style={{ 'fontSize': '30px' }} />
+                                <p className="d-lg-none d-xl-none"></p>
+                            </NavLink>
+                        </NavItem>
+                        <NavItem className="p-0">
+                            <NavLink
+                                tag={Link}
+                                to="/createPost"
+                            >
+                                <i className="fas fa-image" style={{ 'fontSize': '30px' }} />
                                 <p className="d-lg-none d-xl-none"></p>
                             </NavLink>
                         </NavItem>
@@ -132,18 +141,6 @@ export const LUNavbar = () => {
                                 to="/chat"
                             >
                                 <i className="fas fa-comment-alt" style={{ 'fontSize': '30px' }} />
-                                <p className="d-lg-none d-xl-none"></p>
-                            </NavLink>
-                        </NavItem>
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <NavItem className="p-0">
-                            <NavLink
-                                tag={Link}
-                                to="/map"
-                            >
-                                <i className="fa-solid fa-map-location" style={{ 'fontSize': '30px' }} />
                                 <p className="d-lg-none d-xl-none"></p>
                             </NavLink>
                         </NavItem>
