@@ -147,7 +147,6 @@ export const Navegation = () => {
 		},
 	})
 	const movementArtworks = ARTWORKS_DATA?.data?.artworks || []
-	console.log(movementArtworks)
 
 	return (
 		<>

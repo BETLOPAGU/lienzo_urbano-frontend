@@ -22,6 +22,14 @@ import {
     CarouselIndicators,
 } from "reactstrap";
 
+import {
+    Routes,
+    Route,
+    useSearchParams,
+    BrowserRouter
+  } from "react-router-dom"
+
+  
 import TagsInput from "LienzoUrbano/components/TagsInput/TagsInput.js";
 
 // core components
@@ -44,7 +52,7 @@ const items = [
     }
 ];
 
-export const OpenPost = ({ idImagen }) => {
+export const OpenPost = (data) => {
     const [activeIndex, setActiveIndex] = React.useState(0);
     const [animating, setAnimating] = React.useState(false);
     const [quantity, setQuantity] = React.useState(1);
@@ -89,11 +97,8 @@ export const OpenPost = ({ idImagen }) => {
         setQuantity(quantity === 100 ? 100 : quantity + 1);
     };
 
-
-const artworkId = Number(localStorage.getItem('artworkId')) || 0
-console.log(artworkId);
-
-
+    const artworkId = Number(localStorage.getItem('artworkId'))
+    console.log({artworkId});
 
 	const ARTWORK_QUERY = gql`
 query Artwork($artworkId: Int!) {
@@ -161,7 +166,7 @@ query Artwork($artworkId: Int!) {
 	`
 	const ARTWORK_DATA = useQuery(ARTWORK_QUERY, {
         variables: {
-            artworkId
+            artworkId: 26 || 26
         }
     })
 	const artwork = ARTWORK_DATA?.data?.artwork || {}
@@ -190,7 +195,6 @@ query Artwork($artworkId: Int!) {
         setColors(artworkColors)
     }
 
-    console.log(tags, materials, movements, colors);
       
     return (
         <>
@@ -200,7 +204,7 @@ query Artwork($artworkId: Int!) {
                 <div className="section">
                     <Container>
                         <Row>
-                            <h1>{idImagen}</h1>
+                            <h1></h1>
                             <Col lg="6" md="12">
                                 <Carousel
                                     activeIndex={activeIndex}

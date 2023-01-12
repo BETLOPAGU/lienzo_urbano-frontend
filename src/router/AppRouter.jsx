@@ -79,7 +79,6 @@ export const AppRouter = () => {
     }
   );
   const newUserNotificationReceived = USER_NOTIFICATIONS_DATA?.data?.userNotifications
-  console.log(USER_NOTIFICATIONS_DATA?.data);
   processNotification(newUserNotificationReceived)
 
   if (status === 'checking') {
