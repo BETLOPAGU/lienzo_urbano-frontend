@@ -106,7 +106,7 @@ export const AppRouter = () => {
               <Route path="/accountSettings" element={ <AccountSettings /> } />
               <Route path="/createPost" element={ <CreatePost /> } />
               <Route path="/search" element={ <Search /> } />
-              <Route path="/openPost/:id" element={ <OpenPost /> } />
+              <Route path="/openPost/:idImagen" element={ <OpenPost /> } />
               <Route path="/*" element={<Navigate to="/" />} />
             </>
           )
