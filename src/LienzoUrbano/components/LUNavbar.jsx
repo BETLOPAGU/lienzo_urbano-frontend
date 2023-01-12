@@ -158,6 +158,10 @@ export const LUNavbar = () => {
                                     <i className="fas fa-user-circle" />
                                     Tu Perfil
                                 </DropdownItem>
+                                <DropdownItem to="/profile" tag={Link}>
+                                    <i className="fas fa-user-cog" />
+                                    Configuración
+                                </DropdownItem>
                                 <DropdownItem to="/colections" tag={Link}>
                                     <i className="fas fa-file-image" />
                                     Tus colecciones

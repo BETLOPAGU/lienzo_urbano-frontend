@@ -227,7 +227,7 @@ export const LoginPage = () => {
                   </Carousel>
                 </Col>
                 <Col className="ml-auto mr-auto" lg="6" md="8" xs="12">
-                  <form>
+                  <form autocomplete="off">
                     <CardHeader className="text-center" style={{ background: 'none' }}>
                       <CardTitle tag="h1">Iniciar Sesión</CardTitle>
                     </CardHeader>

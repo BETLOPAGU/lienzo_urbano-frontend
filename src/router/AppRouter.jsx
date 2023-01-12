@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthRoutes } from '../auth/routes/AuthRoutes';
 import { LURoutes } from '../LienzoUrbano/routes/LURoutes';
 import { useAuthStore } from '../hooks/useAuthStore';
+import { Navegation, Chat } from '../LienzoUrbano/pages';
 
 
 export const AppRouter = () => {
@@ -33,7 +34,8 @@ export const AppRouter = () => {
           )
           : (
             <>
-              <Route path="/" element={<LURoutes />} />
+              <Route path="/" element={<Navegation />} />
+              <Route path="/chat" element={ <Chat /> } />
               <Route path="/*" element={<Navigate to="/" />} />
             </>
           )

@@ -1,11 +1,11 @@
 
 import { LULayout } from 'LienzoUrbano/layout/LULayout';
-import { Navegation } from './';
+import { Navegation, Chat } from './';
 
 export const LUPage = () => {
   return (
     <LULayout>
-        <Navegation />
+        <Chat />
     </LULayout>
   )
 }

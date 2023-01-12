@@ -7,7 +7,7 @@ export const LURoutes = () => {
   return (
     <>
         <Routes>
-            <Route path="/" element={ <LUPage /> } />            
+            <Route path="/" element={ <Navegation /> } />            
             {/* <Route path="/navigation" element={ <Navegation /> } /> */}
             <Route path="/singup" element={ <Signup /> } />
             <Route path="/profile" element={ <ProfilePage /> } />
