@@ -16,9 +16,11 @@
 */
 import React from "react";
 import { useEffect } from "react";
+import { Link } from 'react-router-dom';
 import Select from "react-select";
 // nodejs library that concatenates classes
 import PropTypes from "prop-types";
+import { HuePicker, SketchPicker } from 'react-color';
 
 import { gql, useMutation, useLazyQuery } from '@apollo/client';
 
@@ -72,15 +74,37 @@ const registerObraFormFields = {
     BOPrecMax: '',
     BOPrecMin: '',
     BOLatitud: '',
-    BOLongitud: '',    
+    BOLongitud: '',
     BOMaterial: '',
     BOTags: '',
     BOCorriente: '',
+    BORadBus: '',
 }
 
 var idObra;
 
 export const Search = () => {
+    const [colorB, setColorB] = React.useState(null);
+
+    // const handleColorChange = (e) => {
+    //     e.preventDefault();
+    //     let reader = new FileReader();
+    //     let file = e.target.files[0];
+    //     reader.onloadend = () => {
+    //         setFile(file);
+    //         setImagePreviewUrl(reader.result);
+    //     };
+    //     reader.readAsDataURL(file);
+    // };
+
+    const state = {
+        background: '#fff',
+    };
+
+    const handleChangeComplete = (color) => {
+        this.setState({ background: color.hex });
+    };
+
     const [profileTabs, setProfileTabs] = React.useState(1);
 
 
@@ -110,48 +134,70 @@ export const Search = () => {
         BOMaterial,
         BOTags,
         BOCorriente,
+        BORadBus,
         onInputChange } = useForm(registerObraFormFields);
 
     const BUSCAR_OBRAS = gql`
         query Artworks($filters: FindArtworksInput) {
         artworks(filters: $filters) {
             artist {
-            email
-            firstName
-            lastName
+                email
+                firstName
+                lastName
             }
             imageUrl
             title
+            id
         }
       }`;
 
     const [registerSubmit, { loading, data, error }] = useLazyQuery(BUSCAR_OBRAS, {
         variables: {
             createArtworkInput: {
-                ... BOTitulo ? { title: BOTitulo } : {},
-                ... BODescripcion ? { description: BODescripcion } : {},                
-                ... BOAltoMax ? { maxHeight: BOAltoMax } : {},
-                ... BOPrecMax ? { maxPrice: BOPrecMax } : {},
-                ... BOAnchoMax ? { maxWidth: BOAnchoMax } : {},
-                ... BOMaxHrsTra ? { maxWorkingHours: BOMaxHrsTra } : {},
-                ... BOAltoMin ? { minHeight: BOAltoMin } : {},
-                ... BOPrecMin ? { minPrice: BOPrecMin } : {},
-                ... BOAnchoMin ? { minWidth: BOAnchoMin } : {},                
-                ... BOMinHrsTra ? { minWorkingHours: BOMinHrsTra } : {},   
-                ... BOColores ? { color: BOColores } : {},   
-                ... BOLatitud ? { latitude: BOLatitud } : {},   
-                ... BOLongitud ? { longitude: BOLongitud } : {},  
-                ... BOMaterial ? { materials: BOMaterial } : {},   
-                ... BOTags ? { tags: BOTags } : {},   
-                ... BOCorriente ? { movements: BOCorriente } : {},   
+                ...BOTitulo ? { title: BOTitulo } : {},
+                ...BODescripcion ? { description: BODescripcion } : {},
+                ...BOAltoMax ? { maxHeight: parseFloat(BOAltoMax) } : {},
+                ...BOPrecMax ? { maxPrice: parseFloat(BOPrecMax) } : {},
+                ...BOAnchoMax ? { maxWidth: parseFloat(BOAnchoMax) } : {},
+                ...BOMaxHrsTra ? { maxWorkingHours: parseInt(BOMaxHrsTra) } : {},
+                ...BOAltoMin ? { minHeight: parseFloat(BOAltoMin) } : {},
+                ...BOPrecMin ? { minPrice: parseFloat(BOPrecMin) } : {},
+                ...BOAnchoMin ? { minWidth: parseFloat(BOAnchoMin) } : {},
+                ...BOMinHrsTra ? { minWorkingHours: parseInt(BOMinHrsTra) } : {},
+                ...BOColores ? { color: parseFloat(BOColores) } : {},
+                ...BOLatitud ? { latitude: parseFloat(BOLatitud) } : {},
+                ...BOLongitud ? { longitude: parseFloat(BOLongitud) } : {},
+                ...BOMaterial ? { materials: parseFloat(BOMaterial) } : {},
+                ...BOTags ? { tags: BOTags } : {},
+                ...BOCorriente ? { movements: BOCorriente } : {},
             }
+        }
+    });
+
+    const BUSCAR_OBRAS_GEO = gql`
+        query FindArtworksByGeoRadius($radius: Int!) {
+        findArtworksByGeoRadius(radius: $radius) {
+          artist {
+            email
+            firstName
+            lastName
+          }
+          imageUrl
+          title
+          id
+        }
+      }`;
+
+    const [radBusSubmit, { loading: loading2, data: data2, error: error2 }] = useLazyQuery(BUSCAR_OBRAS_GEO, {
+        variables: {
+            ...BORadBus ? { radius: parseInt(BORadBus) } : {},
         }
     });
 
     if (error) console.log(error.message);
 
     if (data && data.artworks) {
-        // idObra = data.artworks.title;
+        console.log(data);
     }
 
     if (loading) return <p>Loading ...</p>;
@@ -227,6 +273,12 @@ export const Search = () => {
                                                                     onChange={onInputChange}
                                                                 />
                                                             </FormGroup>
+                                                            {/* <br/>
+                                                            <HuePicker
+                                                                color={colorB}
+                                                                onChangeComplete={set}
+                                                            />
+                                                            <br/> */}
                                                         </Col>
                                                     </Row>
                                                     <Row>
@@ -474,6 +526,45 @@ export const Search = () => {
                                                 </div>
                                             </Form>
                                         </TabPane>
+                                        <br/><br/><br/>
+                                        <TabPane tabId="profile1">
+                                            <Form type="form">
+                                                <div>
+                                                    <header>
+                                                        <h2 className="text-uppercase">
+                                                            BUSCAR POR DISTANCIA
+                                                        </h2>
+                                                    </header>
+                                                    <hr className="line-info" />
+                                                    <br />
+                                                    <Row>
+                                                        <Col className="align-self-center" md="3">
+                                                            <label className="labels" htmlFor="#phone">
+                                                                Radio de búsqueda
+                                                            </label>
+                                                        </Col>
+                                                        <Col className="align-self-center" md="9">
+                                                            <FormGroup>
+                                                                <Input
+                                                                    type="text"
+                                                                    required="required"
+                                                                    name="BORadBus"
+                                                                    value={BORadBus}
+                                                                    onChange={onInputChange}
+                                                                />
+                                                            </FormGroup>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className="mt-4">
+                                                        <Col md="6">
+                                                            <Button color="info" type="button" onClick={() => radBusSubmit()}>
+                                                                Buscar
+                                                            </Button>
+                                                        </Col>
+                                                    </Row>
+                                                </div>
+                                            </Form>
+                                        </TabPane>
                                     </TabContent>
                                 </div>
                             </Col>
@@ -483,43 +574,74 @@ export const Search = () => {
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <Col md="5">
-                                <Row>
+                                <div className="main main-raised">
                                     <Col lg="4" md="6">
-                                        <Card className="card-blog card-plain">
-                                            <div className="card-image">
-                                                <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                                                    <img
-                                                        alt="..."
-                                                        className="img rounded"
-                                                        src={require("assets/img/steven-roe.jpg")}
-                                                    />
-                                                </a>
-                                            </div>
-                                            <CardBody>
-                                                <CardTitle tag="h4">
-                                                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                                                        That’s One Way To Ditch Your Passenger
-                                                    </a>
-                                                </CardTitle>
-                                                <p className="card-description">
-                                                    As near as we can tell, this guy must have thought he was
-                                                    going over backwards and tapped the rear...
-                                                </p>
-                                                <CardFooter>
-                                                    <div className="author">
-                                                        <img
-                                                            alt="..."
-                                                            className="avatar img-raised"
-                                                            src={require("assets/img/p10.jpg")}
-                                                        />
-                                                        <span className="ml-1">Mike John</span>
-                                                    </div>
-                                                </CardFooter>
-                                            </CardBody>
-                                        </Card>
+                                        {
+                                            data && data.artworks 
+                                                ?
+                                                data?.artworks.map(art => (
+                                                    <Card className="card-blog card-plain" key={art.id}>
+                                                        <div className="card-image">
+                                                            <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                                                                <img
+                                                                    alt="..."
+                                                                    className="img rounded"
+                                                                    src={art.imageUrl}
+                                                                />
+                                                            </a>
+                                                        </div>
+                                                        <CardBody>
+                                                            <CardTitle tag="h4">
+                                                                <Link tag={Link} to={`/openPost${art.id}`}>                                                                    
+                                                                </Link>
+                                                                <p>{art.title}</p>
+                                                            </CardTitle>
+                                                            <CardFooter>
+                                                                <div className="author">
+                                                                    <span className="ml-1">{art.artist.firstName} {art.artist.lastName}</span>
+                                                                    <span className="ml-1">{art.artist.email} </span>
+                                                                </div>
+                                                            </CardFooter>
+                                                        </CardBody>
+                                                    </Card>
+                                                ))
+                                                :
+                                                <h1></h1>                                                
+                                        }
+                                                                                {
+                                            data2 && data2.artworks 
+                                                ?
+                                                data2?.findArtworksByGeoRadius.map(art => (
+                                                    <Card className="card-blog card-plain" key={art.id}>
+                                                        <div className="card-image">
+                                                            <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                                                                <img
+                                                                    alt="..."
+                                                                    className="img rounded"
+                                                                    src={art.imageUrl}
+                                                                />
+                                                            </a>
+                                                        </div>
+                                                        <CardBody>
+                                                            <CardTitle tag="h4">
+                                                                <Link tag={Link} to={`/openPost${art.id}`}>
+                                                                    {data.artworks.title}
+                                                                </Link>
+                                                            </CardTitle>
+                                                            <CardFooter>
+                                                                <div className="author">
+                                                                    <span className="ml-1">{art.artist.firstName} {art.artist.lastName}</span>
+                                                                    <span className="ml-1">{art.artist.email} </span>
+                                                                </div>
+                                                            </CardFooter>
+                                                        </CardBody>
+                                                    </Card>
+                                                ))
+                                                :
+                                                <h1></h1>                                                
+                                        }
                                     </Col>
-                                </Row>
-
+                                </div>
                             </Col>
                         </Row>
                     </Container>
