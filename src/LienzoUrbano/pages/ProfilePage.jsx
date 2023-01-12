@@ -24,7 +24,8 @@ import {
 } from "reactstrap";
 
 // core components
-import { ExamplesNavbar, Footer } from '../../components';
+import { Footer } from '../../components';
+import { LUNavbar } from "LienzoUrbano/components";
 
 const carouselItems = [
   {
@@ -71,7 +72,7 @@ export const ProfilePage = () => {
   
   return (
     <>
-      <ExamplesNavbar />
+      <LUNavbar />
       <div className="wrapper">
         <div className="page-header">
           <img

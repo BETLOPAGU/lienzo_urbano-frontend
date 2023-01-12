@@ -66,10 +66,11 @@ export const LUNavbar = () => {
         setCollapseOut("");
     };
     return (
-        <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
+        <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg" style={{height: '100px'}}>
             <Container>
                 <div className="navbar-translate">
                     <NavbarBrand to="/" id="navbar-brand" tag={Link}>
+                        <br/>
                         <h3><img alt="..." src={require("assets/img/LU_logo.png")} /><span>Lienzo Urbano</span></h3>
                     </NavbarBrand>
                 </div>
@@ -158,7 +159,7 @@ export const LUNavbar = () => {
                                     <i className="fas fa-user-circle" />
                                     Tu Perfil
                                 </DropdownItem>
-                                <DropdownItem to="/profile" tag={Link}>
+                                <DropdownItem to="/accountSettings" tag={Link}>
                                     <i className="fas fa-user-cog" />
                                     Configuración
                                 </DropdownItem>
