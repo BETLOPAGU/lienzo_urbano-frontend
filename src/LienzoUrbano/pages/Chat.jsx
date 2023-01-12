@@ -47,10 +47,18 @@ import {
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import { LUNavbar } from 'LienzoUrbano/components/LUNavbar';
+import { gql, useQuery, useMutation } from '@apollo/client';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const Chat = () => {
   const [searchContact, setSearchContact] = React.useState(undefined);
+  const [activeUser, setActiveUser] = React.useState(undefined);
   const [yourMessage, setYourMessage] = React.useState(undefined);
+  const [message, setMessage] = React.useState('');
+  const [chatConversation, setChatConversation] = React.useState([]);
+
+  const currentUserId = localStorage.getItem('userId');
+
   const wrapper = React.useRef(null);
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -61,6 +69,89 @@ export const Chat = () => {
       document.body.classList.remove("chat-page");
     };
   }, []);
+
+  const LIST_OF_COMMENTED_USERS_QUERY = gql`
+    query ListOfCommentedUsers {
+      listOfCommentedUsers {
+        id
+        firstName
+        lastName
+        photoUrl
+      }
+    }
+  `;
+  const LIST_OF_COMMENTED_USERS_DATA = useQuery(LIST_OF_COMMENTED_USERS_QUERY);
+  const listOfCommentedUsers = LIST_OF_COMMENTED_USERS_DATA?.data?.listOfCommentedUsers || []
+  if (!activeUser && listOfCommentedUsers.length > 0) setActiveUser(listOfCommentedUsers[0])
+
+  const CHAT_CONVERSATION_QUERY = gql`
+    query ChatConversation($userId: Int!) {
+      chatConversation(userId: $userId) {
+        id
+        commentatorId
+        comment
+        userId
+        artworkId
+        commentId
+        createdDate
+      }
+    }
+  `;
+  const CHAT_CONVERSATION_DATA = useQuery(CHAT_CONVERSATION_QUERY, {
+    variables: {
+      userId: activeUser?.id || 0
+    }
+  });
+  const tempChatConversation = CHAT_CONVERSATION_DATA?.data?.chatConversation || []
+  if (chatConversation.length === 0 && tempChatConversation.length > 0) setChatConversation(tempChatConversation)
+
+  const CREATE_COMMENT_QUERY = gql`
+    mutation CreateComment($createCommentInput: CreateCommentInput!) {
+      createComment(createCommentInput: $createCommentInput) {
+        id
+        commentatorId
+        comment
+        userId
+        artworkId
+        commentId
+        createdDate
+      }
+    }
+  `;
+  const [createComment, { loading, data }] = useMutation(CREATE_COMMENT_QUERY, {
+    variables: {
+      createCommentInput: {
+        comment: message,
+        userId: activeUser?.id
+      }
+    }
+  });
+
+  const COMMENTS_SUBSCRIPTION = gql`
+    subscription CommentAdded($userId: Int) {
+      commentAdded(userId: $userId) {
+        id
+        commentatorId
+        comment
+        userId
+        artworkId
+        commentId
+        createdDate
+      }
+    }
+  `;
+
+  const handleChange = (event) => {
+    setMessage(event.target.value);
+  };
+  
+  const createCommentButton = async () => {
+    const comment = await createComment()
+    const newChatConversation = [...chatConversation, comment.data.createComment]
+    setChatConversation(newChatConversation)
+    setMessage("");
+  }
+
   return (
     <>
       <LUNavbar />
@@ -71,7 +162,7 @@ export const Chat = () => {
             <Row className="flex-row">
               <Col lg="4">
                 <Card className="card-plain">
-                  <CardHeader className="mb-3">
+                  {/* <CardHeader className="mb-3">
                     <InputGroup
                       className={classnames("form-control-lg", {
                         "input-group-focus": searchContact
@@ -89,140 +180,44 @@ export const Chat = () => {
                         </InputGroupText>
                       </InputGroupAddon>
                     </InputGroup>
-                  </CardHeader>
+                  </CardHeader> */}
                   <ListGroup className="list-group-chat" flush>
-                    <ListGroupItem
-                      className="active"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      tag="a"
-                    >
-                      <Media>
-                        <img
-                          alt="..."
-                          className="avatar"
-                          src={require("assets/img/p10.jpg")}
-                        />
-                        <Media body className="ml-2">
-                          <div className="justify-content-between align-items-center">
-                            <h6 className="mb-0">
-                              Charlie Watson <Badge color="success" />
-                            </h6>
-                            <div>
-                              <small>Typing...</small>
+                  {
+                      listOfCommentedUsers.map(user => (
+                        <ListGroupItem
+                        href="#pablo"
+                        onClick={(e) => {
+                          setActiveUser(user);
+                          setChatConversation([]);
+                        }}
+                        tag="a"
+                        key={user.id}
+                        className={classnames({
+                          "active": user.id === activeUser?.id
+                        })}
+                      >
+                        <Media>
+                          <img
+                            alt="..."
+                            className="avatar"
+                            src={user.photoUrl}
+                          />
+                          <Media body className="ml-2">
+                            <div className="justify-content-between align-items-center">
+                              <h6 className="mb-0">{user.firstName} {user.lastName}</h6>
+                              { 
+                                user.id !== activeUser?.id ?  
+                                <div>
+                                  <small className="text-muted">1 hour ago</small>
+                                </div> 
+                                : null
+                              }                              
                             </div>
-                          </div>
+                          </Media>
                         </Media>
-                      </Media>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      tag="a"
-                    >
-                      <Media>
-                        <img
-                          alt="..."
-                          className="avatar"
-                          src={require("assets/img/johana.jpg")}
-                        />
-                        <Media body className="ml-2">
-                          <div className="justify-content-between align-items-center">
-                            <h6 className="mb-0">Jane Doe</h6>
-                            <div>
-                              <small className="text-muted">1 hour ago</small>
-                            </div>
-                          </div>
-                          <Col
-                            className="text-muted text-small p-0 text-truncate d-block"
-                            xs="11"
-                          >
-                            Computer users and programmers
-                          </Col>
-                        </Media>
-                      </Media>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      tag="a"
-                    >
-                      <Media>
-                        <img
-                          alt="..."
-                          className="avatar"
-                          src={require("assets/img/ryan.png")}
-                        />
-                        <Media body className="ml-2">
-                          <div className="justify-content-between align-items-center">
-                            <h6 className="mb-0">Mila Skylar</h6>
-                            <div>
-                              <small className="text-muted">24 min ago</small>
-                            </div>
-                          </div>
-                          <Col
-                            className="text-muted text-small p-0 text-truncate d-block"
-                            xs="11"
-                          >
-                            You can subscribe to receive weekly...
-                          </Col>
-                        </Media>
-                      </Media>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      tag="a"
-                    >
-                      <Media>
-                        <img
-                          alt="..."
-                          className="avatar"
-                          src={require("assets/img/kareya-saleh.jpg")}
-                        />
-                        <Media body className="ml-2">
-                          <div className="justify-content-between align-items-center">
-                            <h6 className="mb-0">Sofia Scarlett</h6>
-                            <div>
-                              <small className="text-muted">7 hours ago</small>
-                            </div>
-                          </div>
-                          <Col
-                            className="text-muted text-small p-0 text-truncate d-block"
-                            xs="11"
-                          >
-                            It’s an effective resource regardless..
-                          </Col>
-                        </Media>
-                      </Media>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      tag="a"
-                    >
-                      <Media>
-                        <img
-                          alt="..."
-                          className="avatar"
-                          src={require("assets/img/christian.jpg")}
-                        />
-                        <Media body className="ml-2">
-                          <div className="justify-content-between align-items-center">
-                            <h6 className="mb-0">Tom Klein</h6>
-                            <div>
-                              <small className="text-muted">1 day ago</small>
-                            </div>
-                          </div>
-                          <Col
-                            className="text-muted text-small p-0 text-truncate d-block"
-                            xs="11"
-                          >
-                            Be sure to check it out if your dev pro...
-                          </Col>
-                        </Media>
-                      </Media>
-                    </ListGroupItem>
+                      </ListGroupItem>
+                      ))
+                    }
                   </ListGroup>
                 </Card>
               </Col>
@@ -235,223 +230,61 @@ export const Chat = () => {
                           <img
                             alt="..."
                             className="avatar"
-                            src={require("assets/img/p10.jpg")}
+                            src={activeUser?.photoUrl}
                           />
                           <Media body>
-                            <h6 className="mb-0 d-block">Charlie Watson</h6>
-                            <span className="text-muted text-small">
-                              last seen today at 1:53am
-                            </span>
+                            <h6 className="mb-0 d-block">{activeUser?.firstName} {activeUser?.lastName}</h6>
                           </Media>
                         </Media>
-                      </Col>
-                      <Col md="1">
-                        <Button
-                          className="btn-link"
-                          color="info"
-                          id="tooltip487083381"
-                          type="button"
-                        >
-                          <i className="tim-icons icon-video-66" />
-                        </Button>
-                        <UncontrolledTooltip
-                          delay={0}
-                          placement="top"
-                          target="tooltip487083381"
-                        >
-                          Video call
-                        </UncontrolledTooltip>
-                      </Col>
-                      <Col md="1">
-                        <UncontrolledDropdown>
-                          <DropdownToggle className="btn-link" color="primary">
-                            <i className="tim-icons icon-settings" />
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <i className="tim-icons icon-single-02" />
-                              Profile
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <i className="tim-icons icon-volume-98" />
-                              Mute conversation
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <i className="tim-icons icon-lock-circle" />
-                              Block
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <i className="tim-icons icon-chat-33" />
-                              Clear chat
-                            </DropdownItem>
-                            <DropdownItem divider />
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <i className="tim-icons icon-simple-remove" />
-                              Delete chat
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
                       </Col>
                     </Row>
                   </CardHeader>
                   <CardBody>
-                    <Row className="justify-content-start">
-                      <Col xs={{ size: "auto" }}>
-                        <Card>
-                          <CardBody className="p-2">
-                            <p className="mb-1">
-                              It contains a lot of good lessons about effective
-                              practices
-                            </p>
-                            <div>
-                              <small className="opacity-60">
-                                <i className="far fa-clock" /> 3:14am
-                              </small>
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-end text-right">
-                      <Col xs={{ size: "auto" }}>
-                        <Card className="bg-primary text-white">
-                          <CardBody className="p-2">
-                            <p className="mb-1">
-                              Can it generate daily design links that include
-                              essays and data visualizations ? <br />
-                            </p>
-                            <div>
-                              <small className="opacity-60">3:30am</small>{" "}
-                              <i className="tim-icons icon-check-2" />
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="mt-4">
-                      <Col className="text-center" md="12">
-                        <Badge className="text-white" color="">
-                          Wed, 3:27pm
-                        </Badge>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-start">
-                      <Col xs={{ size: "auto" }}>
-                        <Card>
-                          <CardBody className="p-2">
-                            <p className="mb-1">
-                              Yeah! Responsive Design is geared towards those
-                              trying to build web apps
-                            </p>
-                            <div>
-                              <small className="opacity-60">
-                                <i className="far fa-clock" /> 4:31pm
-                              </small>
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-end text-right">
-                      <Col xs={{ size: "auto" }}>
-                        <Card className="bg-primary text-white">
-                          <CardBody className="p-2">
-                            <p className="mb-1">Excellent, I want it now !</p>
-                            <div>
-                              <small className="opacity-60">4:40pm</small>{" "}
-                              <i className="tim-icons icon-check-2" />
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-start">
-                      <Col xs={{ size: "auto" }}>
-                        <Card>
-                          <CardBody className="p-2">
-                            <p className="mb-1">
-                              You can easily get it; The content here is all
-                              free
-                            </p>
-                            <div>
-                              <small className="opacity-60">
-                                <i className="far fa-clock" /> 4:42pm
-                              </small>
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-end text-right">
-                      <Col xs={{ size: "auto" }}>
-                        <Card className="bg-primary text-white">
-                          <CardBody className="p-2">
-                            <p className="mb-1">
-                              Awesome, blog is important source material for
-                              anyone who creates apps? <br /> beacuse these
-                              blogs offer a lot of information about website
-                              development.
-                            </p>
-                            <div>
-                              <small className="opacity-60">4:46pm</small>{" "}
-                              <i className="tim-icons icon-check-2" />
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-start">
-                      <Col xs="5">
-                        <Card>
-                          <CardBody className="p-2">
-                            <Col className="p-0" xs="12">
-                              <img
-                                alt="..."
-                                className="img-fluid rounded mb-1"
-                                src={require("assets/img/luke.jpg")}
-                              />
+
+
+                  {
+                      chatConversation.map(chat => {
+
+                        return currentUserId === chat.commentatorId ? 
+                        (
+                          <Row key={chat.id} className="justify-content-start">
+                            <Col xs={{ size: "auto" }}>
+                              <Card>
+                                <CardBody className="p-2">
+                                  <p className="mb-1">
+                                    {chat.comment}
+                                  </p>
+                                  <div>
+                                    <small className="opacity-60">
+                                      <i className="far fa-clock" /> 3:14am
+                                    </small>
+                                  </div>
+                                </CardBody>
+                              </Card>
                             </Col>
-                            <div>
-                              <small className="opacity-60">
-                                <i className="far fa-clock" /> 4:47pm
-                              </small>
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-end text-right">
-                      <Col xs={{ size: "auto" }}>
-                        <Card className="bg-primary text-white">
-                          <CardBody className="p-2">
-                            <p className="mb-0">
-                              At the end of the day … the native dev apps is
-                              where users are
-                            </p>
-                            <div>
-                              <small className="opacity-60">4:47pm</small>{" "}
-                              <i className="tim-icons icon-check-2" />
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-start">
+                          </Row>
+                        )
+                        :
+                        (
+                          <Row key={chat.id} className="justify-content-end text-right">
+                            <Col xs={{ size: "auto" }}>
+                              <Card className="bg-primary text-white">
+                                <CardBody className="p-2">
+                                  <p className="mb-1">
+                                    {chat.comment}<br />
+                                  </p>
+                                  {/* <div>
+                                    <small className="opacity-60">3:30am</small>{" "}
+                                    <i className="tim-icons icon-check-2" />
+                                  </div> */}
+                                </CardBody>
+                              </Card>
+                            </Col>
+                          </Row>
+                        )
+                      })
+                    }
+                    {/* <Row className="justify-content-start">
                       <Col xs={{ size: "auto" }}>
                         <Card>
                           <CardBody className="p-2">
@@ -464,7 +297,7 @@ export const Chat = () => {
                           </CardBody>
                         </Card>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </CardBody>
                   <CardFooter className="d-block">
                     <Form className="align-items-center">
@@ -479,12 +312,14 @@ export const Chat = () => {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="Your message"
+                          placeholder="Tu mensaje"
                           type="text"
                           onFocus={(e) => setYourMessage(true)}
                           onBlur={(e) => setYourMessage(false)}
+                          onChange={handleChange}
+                          value={message}
                         />
-                        <Button className="btn-simple ml-2" color="primary">
+                        <Button onClick={(e) => createCommentButton()} className="btn-simple ml-2" color="primary">
                           <i className="tim-icons icon-send" />
                         </Button>
                       </InputGroup>

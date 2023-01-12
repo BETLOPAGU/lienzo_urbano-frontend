@@ -145,6 +145,7 @@ export const LoginPage = () => {
     const user = data.login.user
     localStorage.setItem('token', token);
     localStorage.setItem('token-init-date', new Date().getTime());
+    localStorage.setItem('userId', user.id);
     console.log(localStorage.getItem("token"))
     dispatch(onLogin({ name: `${user.firstName} ${user.lastName}`, id: user.id }));
   }
