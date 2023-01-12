@@ -6,3 +6,4 @@ export * from './Navegation';
 export * from './ReportsPage'; 
 export * from './Search'; 
 export * from './Chat'; 
+export * from './AccountSettings'; 
