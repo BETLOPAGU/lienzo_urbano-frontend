@@ -47,7 +47,7 @@ import {
 import ColorNavbar from "components/Navbars/ColorNavbar.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import { LUNavbar } from 'LienzoUrbano/components/LUNavbar';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery, useMutation, useSubscription } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Chat = () => {
@@ -56,6 +56,7 @@ export const Chat = () => {
   const [yourMessage, setYourMessage] = React.useState(undefined);
   const [message, setMessage] = React.useState('');
   const [chatConversation, setChatConversation] = React.useState([]);
+  const [messagesReceived, setMessagesReceived] = React.useState([]);
 
   const currentUserId = localStorage.getItem('userId');
 
@@ -105,7 +106,7 @@ export const Chat = () => {
   const tempChatConversation = CHAT_CONVERSATION_DATA?.data?.chatConversation || []
   if (chatConversation.length === 0 && tempChatConversation.length > 0) setChatConversation(tempChatConversation)
 
-  const CREATE_COMMENT_QUERY = gql`
+  const CREATE_COMMENT_MUTATION = gql`
     mutation CreateComment($createCommentInput: CreateCommentInput!) {
       createComment(createCommentInput: $createCommentInput) {
         id
@@ -118,7 +119,7 @@ export const Chat = () => {
       }
     }
   `;
-  const [createComment, { loading, data }] = useMutation(CREATE_COMMENT_QUERY, {
+  const [createComment] = useMutation(CREATE_COMMENT_MUTATION, {
     variables: {
       createCommentInput: {
         comment: message,
@@ -127,7 +128,18 @@ export const Chat = () => {
     }
   });
 
-  const COMMENTS_SUBSCRIPTION = gql`
+  const handleChange = (event) => {
+    setMessage(event.target.value);
+  };
+  
+  const createCommentButton = async () => {
+    const comment = await createComment()
+    setChatConversation([...chatConversation, comment.data.createComment])
+    setMessage("");
+  }
+
+
+  const COMMENT_ADDED_SUBSCRIPTION = gql`
     subscription CommentAdded($userId: Int) {
       commentAdded(userId: $userId) {
         id
@@ -140,18 +152,22 @@ export const Chat = () => {
       }
     }
   `;
+  const COMMENT_ADDED_DATA = useSubscription(
+    COMMENT_ADDED_SUBSCRIPTION, {
+      variables: {
+        userId: Number(currentUserId)
+      }
+  });
+  const newMessageReceived = COMMENT_ADDED_DATA?.data?.commentAdded
 
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-  };
-  
-  const createCommentButton = async () => {
-    const comment = await createComment()
-    const newChatConversation = [...chatConversation, comment.data.createComment]
-    setChatConversation(newChatConversation)
-    setMessage("");
+  if (newMessageReceived && !messagesReceived.includes(newMessageReceived.id)) {
+    setMessagesReceived([...messagesReceived, newMessageReceived.id])
+
+    if (newMessageReceived.commentatorId === activeUser.id) {
+      setChatConversation([...chatConversation, newMessageReceived])
+    }
   }
-
+  
   return (
     <>
       <LUNavbar />
@@ -244,8 +260,7 @@ export const Chat = () => {
 
                   {
                       chatConversation.map(chat => {
-
-                        return currentUserId === chat.commentatorId ? 
+                        return Number(currentUserId) !== chat.commentatorId ? 
                         (
                           <Row key={chat.id} className="justify-content-start">
                             <Col xs={{ size: "auto" }}>
@@ -254,11 +269,11 @@ export const Chat = () => {
                                   <p className="mb-1">
                                     {chat.comment}
                                   </p>
-                                  <div>
+                                  {/* <div>
                                     <small className="opacity-60">
                                       <i className="far fa-clock" /> 3:14am
                                     </small>
-                                  </div>
+                                  </div> */}
                                 </CardBody>
                               </Card>
                             </Col>

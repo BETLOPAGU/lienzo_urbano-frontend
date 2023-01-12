@@ -10,6 +10,10 @@ import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@ap
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter, Route } from "react-router-dom";
 import { AppRouter } from "router/AppRouter"
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { split, HttpLink } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/css/nucleo-icons.css";
@@ -18,13 +22,21 @@ import "assets/demo/demo.css";
 import "assets/demo/react-demo.css";
 import { store } from "./store";
 
+// get the authentication token from local storage if it exists
+const token = localStorage.getItem('token');
+
 const httpLink = createHttpLink({
   uri: "https://liberatosoftware.com/lienzourbano-backend/graphql/",
 });
 
+const wsLink = new GraphQLWsLink(createClient({
+  url: 'wss://liberatosoftware.com/lienzourbano-backend/graphql',
+  connectionParams: {
+    authToken: token ? `Bearer ${token}` : "",
+  },
+}));
+
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -34,9 +46,34 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+  },
+}
+
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  authLink.concat(httpLink),
+);
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  link: splitLink,
+  cache: new InMemoryCache(),
+  defaultOptions
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
