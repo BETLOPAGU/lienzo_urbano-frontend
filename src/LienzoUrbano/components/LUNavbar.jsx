@@ -145,15 +145,6 @@ export const LUNavbar = () => {
                                 <p className="d-lg-none d-xl-none"></p>
                             </NavLink>
                         </NavItem>
-                        <NavItem className="p-0">
-                            <Link
-                                tag={Link}
-                                to={`/openPost/${id}`}
-                            >
-                                <i className="fas fa-plus" style={{ 'fontSize': '30px' }} />
-                                <p className="d-lg-none d-xl-none"></p>
-                            </Link>
-                        </NavItem>
                         &nbsp;
                         &nbsp;
                         &nbsp;
