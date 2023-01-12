@@ -110,34 +110,22 @@ export const Navegation = () => {
         <Container fluid>
           <Row style={{ marginTop: '-30px' }}>
             <Col className="positioned" lg="4" md="8" xs="10">
-              <h1 className="title">Te Recomendamos</h1>
-              <p className="description text-white">
-                Meet Wingman, a robust suite of styled pages and components,
-                powered by Bootstrap 4. The ideal starting point for product
-                landing pages, stylish web-apps and complete company websites.
-              </p>
-              <Button
-                color="info"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-                size="lg"
-              >
-                Contact us
-              </Button>
+              <h1 className="title text-warning">Te Recomendamos ...</h1>
             </Col>
             <Col md="12">
               <Slick {...slickSettings}>
                 {
                   data?.getArtworkRecommendations?.map(recommendation => (
                     <div key={recommendation.id}>
-                      <div className="justify-content-center" style={{ cursor: "pointer" }}>
+                      <div className="justify-content-left" style={{ cursor: "pointer" }}>
                         <img
                           alt={recommendation.title}
                           className="d-block"
                           src={recommendation.imageUrl}
+                          align="center"
                         />
                         <br />
-                        <div className="author">
+                        <div className="author justify-content-left">
                           <img
                             alt="..."
                             className="avatar img-raised"
