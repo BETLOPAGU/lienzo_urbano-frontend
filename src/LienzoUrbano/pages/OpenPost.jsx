@@ -166,7 +166,7 @@ query Artwork($artworkId: Int!) {
 	`
 	const ARTWORK_DATA = useQuery(ARTWORK_QUERY, {
         variables: {
-            artworkId: 26 || 26
+            artworkId: artworkId || 26
         }
     })
 	const artwork = ARTWORK_DATA?.data?.artwork || {}
