@@ -26,13 +26,13 @@ import { store } from "./store";
 const token = localStorage.getItem('token');
 
 const httpLink = createHttpLink({
-  // uri: "https://liberatosoftware.com/lienzourbano-backend/graphql/",
-  uri: "http://localhost:3011/graphql/",
+  uri: "https://liberatosoftware.com/lienzourbano-backend/graphql/",
+  // uri: "http://localhost:3011/graphql/",
 });
 
 const wsLink = new GraphQLWsLink(createClient({
-  // url: 'wss://liberatosoftware.com/lienzourbano-backend/graphql',
-  url: 'http://localhost:3011/graphql/',
+  url: 'wss://liberatosoftware.com/lienzourbano-backend/graphql',
+  // url: 'http://localhost:3011/graphql/',
   connectionParams: {
     authToken: token ? `Bearer ${token}` : "",
   },
